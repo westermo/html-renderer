@@ -12,10 +12,10 @@
 
 using System;
 using System.Collections.Generic;
-using TheArtOfDev.HtmlRenderer.Adapters.Entities;
-using TheArtOfDev.HtmlRenderer.Core.Utils;
+using Westermo.HtmlRenderer.Adapters.Entities;
+using Westermo.HtmlRenderer.Core.Utils;
 
-namespace TheArtOfDev.HtmlRenderer.Adapters
+namespace Westermo.HtmlRenderer.Adapters
 {
     /// <summary>
     /// Adapter for platform specific graphics rendering object - used to render graphics and text in platform specific context.<br/>
@@ -151,7 +151,7 @@ namespace TheArtOfDev.HtmlRenderer.Adapters
         /// Return to previous smooth mode before anti-alias was set as returned from <see cref="SetAntiAliasSmoothingMode"/>.
         /// </summary>
         /// <param name="prevMode">the previous mode to set</param>
-        public abstract void ReturnPreviousSmoothingMode(Object prevMode);
+        public abstract void ReturnPreviousSmoothingMode(object? prevMode);
 
         /// <summary>
         /// Get TextureBrush object that uses the specified image and bounding rectangle.

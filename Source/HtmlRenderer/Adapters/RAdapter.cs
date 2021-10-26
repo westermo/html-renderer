@@ -14,13 +14,13 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using TheArtOfDev.HtmlRenderer.Adapters.Entities;
-using TheArtOfDev.HtmlRenderer.Core;
-using TheArtOfDev.HtmlRenderer.Core.Entities;
-using TheArtOfDev.HtmlRenderer.Core.Handlers;
-using TheArtOfDev.HtmlRenderer.Core.Utils;
+using Westermo.HtmlRenderer.Adapters.Entities;
+using Westermo.HtmlRenderer.Core;
+using Westermo.HtmlRenderer.Core.Entities;
+using Westermo.HtmlRenderer.Core.Handlers;
+using Westermo.HtmlRenderer.Core.Utils;
 
-namespace TheArtOfDev.HtmlRenderer.Adapters
+namespace Westermo.HtmlRenderer.Adapters
 {
     /// <summary>
     /// Platform adapter to bridge platform specific objects to HTML Renderer core library.<br/>
@@ -57,17 +57,17 @@ namespace TheArtOfDev.HtmlRenderer.Adapters
         /// <summary>
         /// default CSS parsed data singleton
         /// </summary>
-        private CssData _defaultCssData;
+        private CssData? _defaultCssData;
 
         /// <summary>
         /// image used to draw loading image icon
         /// </summary>
-        private RImage _loadImage;
+        private RImage? _loadImage;
 
         /// <summary>
         /// image used to draw error image icon
         /// </summary>
-        private RImage _errorImage;
+        private RImage? _errorImage;
 
         #endregion
 
@@ -83,10 +83,7 @@ namespace TheArtOfDev.HtmlRenderer.Adapters
         /// <summary>
         /// Get the default CSS stylesheet data.
         /// </summary>
-        public CssData DefaultCssData
-        {
-            get { return _defaultCssData ?? (_defaultCssData = CssData.Parse(this, CssDefaults.DefaultStyleSheet, false)); }
-        }
+        public CssData DefaultCssData => _defaultCssData ??= CssData.Parse(this, CssDefaults.DefaultStyleSheet, false);
 
         /// <summary>
         /// Resolve color value from given color name.
@@ -106,8 +103,7 @@ namespace TheArtOfDev.HtmlRenderer.Adapters
         /// <returns>pen instance</returns>
         public RPen GetPen(RColor color)
         {
-            RPen pen;
-            if (!_penCache.TryGetValue(color, out pen))
+            if (!_penCache.TryGetValue(color, out RPen pen))
             {
                 _penCache[color] = pen = CreatePen(color);
             }
@@ -121,8 +117,7 @@ namespace TheArtOfDev.HtmlRenderer.Adapters
         /// <returns>brush instance</returns>
         public RBrush GetSolidBrush(RColor color)
         {
-            RBrush brush;
-            if (!_brushesCache.TryGetValue(color, out brush))
+            if (!_brushesCache.TryGetValue(color, out RBrush brush))
             {
                 _brushesCache[color] = brush = CreateSolidBrush(color);
             }
@@ -209,11 +204,11 @@ namespace TheArtOfDev.HtmlRenderer.Adapters
         /// <summary>
         /// Get image to be used while HTML image is loading.
         /// </summary>
-        public RImage GetLoadingImage()
+        public RImage? GetLoadingImage()
         {
             if (_loadImage == null)
             {
-                var stream = typeof(HtmlRendererUtils).Assembly.GetManifestResourceStream("TheArtOfDev.HtmlRenderer.Core.Utils.ImageLoad.png");
+                var stream = typeof(HtmlRendererUtils).Assembly.GetManifestResourceStream("Westermo.HtmlRenderer.Core.Utils.ImageLoad.png");
                 if (stream != null)
                     _loadImage = ImageFromStream(stream);
             }
@@ -223,11 +218,11 @@ namespace TheArtOfDev.HtmlRenderer.Adapters
         /// <summary>
         /// Get image to be used if HTML image load failed.
         /// </summary>
-        public RImage GetLoadingFailedImage()
+        public RImage? GetLoadingFailedImage()
         {
             if (_errorImage == null)
             {
-                var stream = typeof(HtmlRendererUtils).Assembly.GetManifestResourceStream("TheArtOfDev.HtmlRenderer.Core.Utils.ImageError.png");
+                var stream = typeof(HtmlRendererUtils).Assembly.GetManifestResourceStream("Westermo.HtmlRenderer.Core.Utils.ImageError.png");
                 if (stream != null)
                     _errorImage = ImageFromStream(stream);
             }
@@ -296,7 +291,7 @@ namespace TheArtOfDev.HtmlRenderer.Adapters
         /// <param name="name">the name of the image for save dialog</param>
         /// <param name="extension">the extension of the image for save dialog</param>
         /// <param name="control">optional: the control to show the dialog on</param>
-        public void SaveToFile(RImage image, string name, string extension, RControl control = null)
+        public void SaveToFile(RImage image, string name, string extension, RControl? control = null)
         {
             SaveToFileInt(image, name, extension, control);
         }
@@ -449,7 +444,7 @@ namespace TheArtOfDev.HtmlRenderer.Adapters
         /// <param name="name">the name of the image for save dialog</param>
         /// <param name="extension">the extension of the image for save dialog</param>
         /// <param name="control">optional: the control to show the dialog on</param>
-        protected virtual void SaveToFileInt(RImage image, string name, string extension, RControl control = null)
+        protected virtual void SaveToFileInt(RImage image, string name, string extension, RControl? control = null)
         {
             throw new NotImplementedException();
         }

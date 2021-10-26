@@ -13,15 +13,15 @@
 using System;
 using System.Globalization;
 using System.Windows.Data;
-using TheArtOfDev.HtmlRenderer.Demo.Common;
+using Westermo.HtmlRenderer.Demo.Common;
 
-namespace TheArtOfDev.HtmlRenderer.Demo.WPF
+namespace Westermo.HtmlRenderer.Demo.WPF
 {
     public class ToolStripImageConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var imageStream = typeof(Resources).Assembly.GetManifestResourceStream("TheArtOfDev.HtmlRenderer.Demo.Common.Resources." + parameter + ".png");
+            var imageStream = typeof(Resources).Assembly.GetManifestResourceStream("Westermo.HtmlRenderer.Demo.Common.Resources." + parameter + ".png");
             return HtmlRenderingHelper.ImageFromStream(imageStream);
         }
 

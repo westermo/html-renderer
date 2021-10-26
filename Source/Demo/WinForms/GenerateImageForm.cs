@@ -17,12 +17,12 @@ using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.Reflection;
 using System.Windows.Forms;
-using TheArtOfDev.HtmlRenderer.Core;
-using TheArtOfDev.HtmlRenderer.Core.Entities;
-using TheArtOfDev.HtmlRenderer.Demo.Common;
-using TheArtOfDev.HtmlRenderer.WinForms;
+using Westermo.HtmlRenderer.Core;
+using Westermo.HtmlRenderer.Core.Entities;
+using Westermo.HtmlRenderer.Demo.Common;
+using Westermo.HtmlRenderer.WinForms;
 
-namespace TheArtOfDev.HtmlRenderer.Demo.WinForms
+namespace Westermo.HtmlRenderer.Demo.WinForms
 {
     public partial class GenerateImageForm : Form
     {

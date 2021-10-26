@@ -12,12 +12,12 @@
 
 using System;
 using System.Collections.Generic;
-using TheArtOfDev.HtmlRenderer.Adapters;
-using TheArtOfDev.HtmlRenderer.Core.Entities;
-using TheArtOfDev.HtmlRenderer.Core.Parse;
-using TheArtOfDev.HtmlRenderer.Core.Utils;
+using Westermo.HtmlRenderer.Adapters;
+using Westermo.HtmlRenderer.Core.Entities;
+using Westermo.HtmlRenderer.Core.Parse;
+using Westermo.HtmlRenderer.Core.Utils;
 
-namespace TheArtOfDev.HtmlRenderer.Core
+namespace Westermo.HtmlRenderer.Core
 {
     /// <summary>
     /// Holds parsed stylesheet css blocks arranged by media and classes.<br/>
@@ -99,9 +99,8 @@ namespace TheArtOfDev.HtmlRenderer.Core
         /// <returns>collection of css blocks, empty collection if no blocks exists (never null)</returns>
         public IEnumerable<CssBlock> GetCssBlock(string className, string media = "all")
         {
-            List<CssBlock> block = null;
-            Dictionary<string, List<CssBlock>> mid;
-            if (_mediaBlocks.TryGetValue(media, out mid))
+            List<CssBlock>? block = null;
+            if (_mediaBlocks.TryGetValue(media, out var mid))
             {
                 mid.TryGetValue(className, out block);
             }

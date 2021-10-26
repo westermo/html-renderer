@@ -10,7 +10,7 @@
 // - Sun Tsu,
 // "The Art of War"
 
-namespace TheArtOfDev.HtmlRenderer.Core.Dom
+namespace Westermo.HtmlRenderer.Core.Dom
 {
     /// <summary>
     /// Represents a word inside an inline box
@@ -23,16 +23,6 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
         /// The word text
         /// </summary>
         private readonly string _text;
-
-        /// <summary>
-        /// was there a whitespace before the word chars (before trim)
-        /// </summary>
-        private readonly bool _hasSpaceBefore;
-
-        /// <summary>
-        /// was there a whitespace after the word chars (before trim)
-        /// </summary>
-        private readonly bool _hasSpaceAfter;
 
         #endregion
 
@@ -48,25 +38,19 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
             : base(owner)
         {
             _text = text;
-            _hasSpaceBefore = hasSpaceBefore;
-            _hasSpaceAfter = hasSpaceAfter;
+            HasSpaceBefore = hasSpaceBefore;
+            HasSpaceAfter = hasSpaceAfter;
         }
 
         /// <summary>
         /// was there a whitespace before the word chars (before trim)
         /// </summary>
-        public override bool HasSpaceBefore
-        {
-            get { return _hasSpaceBefore; }
-        }
+        public override bool HasSpaceBefore { get; }
 
         /// <summary>
         /// was there a whitespace after the word chars (before trim)
         /// </summary>
-        public override bool HasSpaceAfter
-        {
-            get { return _hasSpaceAfter; }
-        }
+        public override bool HasSpaceAfter { get; }
 
         /// <summary>
         /// Gets a bool indicating if this word is composed only by spaces.
@@ -76,7 +60,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
         {
             get
             {
-                foreach (var c in Text)
+                foreach (var c in _text)
                 {
                     if (!char.IsWhiteSpace(c))
                         return false;
@@ -96,10 +80,8 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
         /// <summary>
         /// Gets the text of the word
         /// </summary>
-        public override string Text
-        {
-            get { return _text; }
-        }
+        // ReSharper disable once ConvertToAutoPropertyWhenPossible
+        public override string? Text => _text;
 
         /// <summary>
         /// Represents this word for debugging purposes
@@ -107,7 +89,8 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
         /// <returns></returns>
         public override string ToString()
         {
-            return string.Format("{0} ({1} char{2})", Text.Replace(' ', '-').Replace("\n", "\\n"), Text.Length, Text.Length != 1 ? "s" : string.Empty);
+            return
+                $"{_text.Replace(' ', '-').Replace("\n", "\\n")} ({_text.Length} char{(_text.Length != 1 ? "s" : string.Empty)})";
         }
     }
 }

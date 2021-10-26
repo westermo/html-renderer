@@ -12,7 +12,7 @@
 
 using System;
 
-namespace TheArtOfDev.HtmlRenderer.Adapters
+namespace Westermo.HtmlRenderer.Adapters
 {
     /// <summary>
     /// Adapter for platform specific graphics path object - used to render (draw/fill) path shape.

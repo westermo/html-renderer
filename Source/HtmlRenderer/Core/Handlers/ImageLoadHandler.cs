@@ -15,12 +15,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading;
-using TheArtOfDev.HtmlRenderer.Adapters;
-using TheArtOfDev.HtmlRenderer.Adapters.Entities;
-using TheArtOfDev.HtmlRenderer.Core.Entities;
-using TheArtOfDev.HtmlRenderer.Core.Utils;
+using Westermo.HtmlRenderer.Adapters;
+using Westermo.HtmlRenderer.Adapters.Entities;
+using Westermo.HtmlRenderer.Core.Entities;
+using Westermo.HtmlRenderer.Core.Utils;
 
-namespace TheArtOfDev.HtmlRenderer.Core.Handlers
+namespace Westermo.HtmlRenderer.Core.Handlers
 {
     /// <summary>
     /// Handler for all loading image logic.<br/>
@@ -58,11 +58,6 @@ namespace TheArtOfDev.HtmlRenderer.Core.Handlers
         /// Must be open as long as the image is in use
         /// </summary>
         private FileStream _imageFileStream;
-
-        /// <summary>
-        /// the image instance of the loaded image
-        /// </summary>
-        private RImage _image;
 
         /// <summary>
         /// the image rectangle restriction as returned from image load event
@@ -104,10 +99,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Handlers
         /// <summary>
         /// the image instance of the loaded image
         /// </summary>
-        public RImage Image
-        {
-            get { return _image; }
-        }
+        public RImage? Image { get; private set; }
 
         /// <summary>
         /// the image rectangle restriction as returned from image load event
@@ -131,7 +123,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Handlers
         /// <param name="src">the source of the image to load</param>
         /// <param name="attributes">the collection of attributes on the element to use in event</param>
         /// <returns>the image object (null if failed)</returns>
-        public void LoadImage(string src, Dictionary<string, string> attributes)
+        public void LoadImage(string src, Dictionary<string, string>? attributes)
         {
             try
             {
@@ -183,7 +175,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Handlers
         /// <param name="path">the path to the image to load (file path or uri)</param>
         /// <param name="image">the image to load</param>
         /// <param name="imageRectangle">optional: limit to specific rectangle of the image and not all of it</param>
-        private void OnHtmlImageLoadEventCallback(string path, object image, RRect imageRectangle)
+        private void OnHtmlImageLoadEventCallback(string path, object? image, RRect imageRectangle)
         {
             if (!_disposed)
             {
@@ -191,7 +183,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Handlers
 
                 if (image != null)
                 {
-                    _image = _htmlContainer.Adapter.ConvertImage(image);
+                    Image = _htmlContainer.Adapter.ConvertImage(image);
                     ImageLoadComplete(_asyncCallback);
                 }
                 else if (!string.IsNullOrEmpty(path))
@@ -211,8 +203,8 @@ namespace TheArtOfDev.HtmlRenderer.Core.Handlers
         /// <param name="src">the source that has the base64 encoded image</param>
         private void SetFromInlineData(string src)
         {
-            _image = GetImageFromData(src);
-            if (_image == null)
+            Image = GetImageFromData(src);
+            if (Image == null)
                 _htmlContainer.ReportError(HtmlRenderErrorType.Image, "Failed extract image from inline data");
             _releaseImageObject = true;
             ImageLoadComplete(false);
@@ -223,7 +215,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Handlers
         /// </summary>
         /// <param name="src">the source that has the base64 encoded image</param>
         /// <returns>image from base64 data string or null if failed</returns>
-        private RImage GetImageFromData(string src)
+        private RImage? GetImageFromData(string src)
         {
             var s = src.Substring(src.IndexOf(':') + 1).Split(new[] { ',' }, 2);
             if (s.Length == 2)
@@ -306,7 +298,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Handlers
                 {
                     _imageFileStream = imageFileStream;
                     if (!_disposed)
-                        _image = _htmlContainer.Adapter.ImageFromStream(_imageFileStream);
+                        Image = _htmlContainer.Adapter.ImageFromStream(_imageFileStream);
                     _releaseImageObject = true;
                 }
                 ImageLoadComplete();
@@ -365,7 +357,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Handlers
             if (_disposed)
                 ReleaseObjects();
             else
-                _loadCompleteCallback(_image, _imageRectangle, async);
+                _loadCompleteCallback(Image, _imageRectangle, async);
         }
 
         /// <summary>
@@ -375,10 +367,10 @@ namespace TheArtOfDev.HtmlRenderer.Core.Handlers
         {
             lock (_loadCompleteCallback)
             {
-                if (_releaseImageObject && _image != null)
+                if (_releaseImageObject && Image != null)
                 {
-                    _image.Dispose();
-                    _image = null;
+                    Image.Dispose();
+                    Image = null;
                 }
                 if (_imageFileStream != null)
                 {

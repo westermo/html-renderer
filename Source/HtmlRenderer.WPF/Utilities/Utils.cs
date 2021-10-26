@@ -13,9 +13,9 @@
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using TheArtOfDev.HtmlRenderer.Adapters.Entities;
+using Westermo.HtmlRenderer.Adapters.Entities;
 
-namespace TheArtOfDev.HtmlRenderer.WPF.Utilities
+namespace Westermo.HtmlRenderer.WPF.Utilities
 {
     /// <summary>
     /// Utilities for converting WPF entities to HtmlRenderer core entities.

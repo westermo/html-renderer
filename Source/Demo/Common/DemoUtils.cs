@@ -13,9 +13,9 @@
 using System;
 using System.Diagnostics;
 using System.IO;
-using TheArtOfDev.HtmlRenderer.Core.Entities;
+using Westermo.HtmlRenderer.Core.Entities;
 
-namespace TheArtOfDev.HtmlRenderer.Demo.Common
+namespace Westermo.HtmlRenderer.Demo.Common
 {
     public class DemoUtils
     {

@@ -13,12 +13,12 @@
 using System;
 using System.Globalization;
 using System.IO;
-using TheArtOfDev.HtmlRenderer.Adapters;
-using TheArtOfDev.HtmlRenderer.Core.Dom;
-using TheArtOfDev.HtmlRenderer.Core.Entities;
-using TheArtOfDev.HtmlRenderer.Core.Utils;
+using Westermo.HtmlRenderer.Adapters;
+using Westermo.HtmlRenderer.Core.Dom;
+using Westermo.HtmlRenderer.Core.Entities;
+using Westermo.HtmlRenderer.Core.Utils;
 
-namespace TheArtOfDev.HtmlRenderer.Core.Handlers
+namespace Westermo.HtmlRenderer.Core.Handlers
 {
     /// <summary>
     /// Handle context menu.
@@ -95,12 +95,12 @@ namespace TheArtOfDev.HtmlRenderer.Core.Handlers
         /// <summary>
         /// the css rectangle that context menu shown on
         /// </summary>
-        private CssRect _currentRect;
+        private CssRect? _currentRect;
 
         /// <summary>
         /// the css link box that context menu shown on
         /// </summary>
-        private CssBox _currentLink;
+        private CssBox? _currentLink;
 
         #endregion
 
@@ -276,7 +276,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Handlers
         /// <param name="parent">the parent control to show the context menu on</param>
         /// <param name="rect">the rectangle that was clicked to show context menu</param>
         /// <param name="link">the link that was clicked to show context menu on</param>
-        public void ShowContextMenu(RControl parent, CssRect rect, CssBox link)
+        public void ShowContextMenu(RControl parent, CssRect? rect, CssBox? link)
         {
             try
             {

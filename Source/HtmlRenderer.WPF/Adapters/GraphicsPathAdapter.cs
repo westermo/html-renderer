@@ -12,9 +12,9 @@
 
 using System.Windows;
 using System.Windows.Media;
-using TheArtOfDev.HtmlRenderer.Adapters;
+using Westermo.HtmlRenderer.Adapters;
 
-namespace TheArtOfDev.HtmlRenderer.WPF.Adapters
+namespace Westermo.HtmlRenderer.WPF.Adapters
 {
     /// <summary>
     /// Adapter for WPF graphics path object for core.

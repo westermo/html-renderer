@@ -10,7 +10,7 @@
 // - Sun Tsu,
 // "The Art of War"
 
-namespace TheArtOfDev.HtmlRenderer.Core.Utils
+namespace Westermo.HtmlRenderer.Core.Utils
 {
     /// <summary>
     /// String constants to avoid typing errors.

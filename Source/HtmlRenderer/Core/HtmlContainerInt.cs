@@ -13,15 +13,15 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using TheArtOfDev.HtmlRenderer.Adapters;
-using TheArtOfDev.HtmlRenderer.Adapters.Entities;
-using TheArtOfDev.HtmlRenderer.Core.Dom;
-using TheArtOfDev.HtmlRenderer.Core.Entities;
-using TheArtOfDev.HtmlRenderer.Core.Handlers;
-using TheArtOfDev.HtmlRenderer.Core.Parse;
-using TheArtOfDev.HtmlRenderer.Core.Utils;
+using Westermo.HtmlRenderer.Adapters;
+using Westermo.HtmlRenderer.Adapters.Entities;
+using Westermo.HtmlRenderer.Core.Dom;
+using Westermo.HtmlRenderer.Core.Entities;
+using Westermo.HtmlRenderer.Core.Handlers;
+using Westermo.HtmlRenderer.Core.Parse;
+using Westermo.HtmlRenderer.Core.Utils;
 
-namespace TheArtOfDev.HtmlRenderer.Core
+namespace Westermo.HtmlRenderer.Core
 {
     /// <summary>
     /// Low level handling of Html Renderer logic.<br/>
@@ -82,76 +82,24 @@ namespace TheArtOfDev.HtmlRenderer.Core
         #region Fields and Consts
 
         /// <summary>
-        /// Main adapter to framework specific logic.
-        /// </summary>
-        private readonly RAdapter _adapter;
-
-        /// <summary>
-        /// parser for CSS data
-        /// </summary>
-        private readonly CssParser _cssParser;
-
-        /// <summary>
-        /// the root css box of the parsed html
-        /// </summary>
-        private CssBox _root;
-
-        /// <summary>
         /// list of all css boxes that have ":hover" selector on them
         /// </summary>
-        private List<HoverBoxBlock> _hoverBoxes;
+        private List<HoverBoxBlock>? _hoverBoxes;
 
         /// <summary>
         /// Handler for text selection in the html. 
         /// </summary>
-        private SelectionHandler _selectionHandler;
+        private SelectionHandler? _selectionHandler;
 
         /// <summary>
         /// Handler for downloading of images in the html
         /// </summary>
-        private ImageDownloader _imageDownloader;
-
-        /// <summary>
-        /// the text fore color use for selected text
-        /// </summary>
-        private RColor _selectionForeColor;
-
-        /// <summary>
-        /// the back-color to use for selected text
-        /// </summary>
-        private RColor _selectionBackColor;
+        private ImageDownloader? _imageDownloader;
 
         /// <summary>
         /// the parsed stylesheet data used for handling the html
         /// </summary>
-        private CssData _cssData;
-
-        /// <summary>
-        /// Is content selection is enabled for the rendered html (default - true).<br/>
-        /// If set to 'false' the rendered html will be static only with ability to click on links.
-        /// </summary>
-        private bool _isSelectionEnabled = true;
-
-        /// <summary>
-        /// Is the build-in context menu enabled (default - true)
-        /// </summary>
-        private bool _isContextMenuEnabled = true;
-
-        /// <summary>
-        /// Gets or sets a value indicating if anti-aliasing should be avoided 
-        /// for geometry like backgrounds and borders
-        /// </summary>
-        private bool _avoidGeometryAntialias;
-
-        /// <summary>
-        /// Gets or sets a value indicating if image asynchronous loading should be avoided (default - false).<br/>
-        /// </summary>
-        private bool _avoidAsyncImagesLoading;
-
-        /// <summary>
-        /// Gets or sets a value indicating if image loading only when visible should be avoided (default - false).<br/>
-        /// </summary>
-        private bool _avoidImagesLateLoading;
+        private CssData? _cssData;
 
         /// <summary>
         /// is the load of the html document is complete
@@ -168,11 +116,6 @@ namespace TheArtOfDev.HtmlRenderer.Core
         /// Set zero for unlimited.<br/>
         /// </summary>
         private RSize _maxSize;
-
-        /// <summary>
-        /// Gets or sets the scroll offset of the document for scroll controls
-        /// </summary>
-        private RPoint _scrollOffset;
 
         /// <summary>
         /// The actual size of the rendered html (after layout)
@@ -209,37 +152,31 @@ namespace TheArtOfDev.HtmlRenderer.Core
         {
             ArgChecker.AssertArgNotNull(adapter, "global");
 
-            _adapter = adapter;
-            _cssParser = new CssParser(adapter);
+            Adapter = adapter;
+            CssParser = new CssParser(adapter);
         }
 
         /// <summary>
         /// 
         /// </summary>
-        internal RAdapter Adapter
-        {
-            get { return _adapter; }
-        }
+        internal RAdapter Adapter { get; }
 
         /// <summary>
         /// parser for CSS data
         /// </summary>
-        internal CssParser CssParser
-        {
-            get { return _cssParser; }
-        }
+        internal CssParser CssParser { get; }
 
         /// <summary>
         /// Raised when the set html document has been fully loaded.<br/>
         /// Allows manipulation of the html dom, scroll position, etc.
         /// </summary>
-        public event EventHandler LoadComplete;
+        public event EventHandler? LoadComplete;
 
         /// <summary>
         /// Raised when the user clicks on a link in the html.<br/>
         /// Allows canceling the execution of the link.
         /// </summary>
-        public event EventHandler<HtmlLinkClickedEventArgs> LinkClicked;
+        public event EventHandler<HtmlLinkClickedEventArgs>? LinkClicked;
 
         /// <summary>
         /// Raised when html renderer requires refresh of the control hosting (invalidation and re-layout).
@@ -247,13 +184,13 @@ namespace TheArtOfDev.HtmlRenderer.Core
         /// <remarks>
         /// There is no guarantee that the event will be raised on the main thread, it can be raised on thread-pool thread.
         /// </remarks>
-        public event EventHandler<HtmlRefreshEventArgs> Refresh;
+        public event EventHandler<HtmlRefreshEventArgs>? Refresh;
 
         /// <summary>
         /// Raised when Html Renderer request scroll to specific location.<br/>
         /// This can occur on document anchor click.
         /// </summary>
-        public event EventHandler<HtmlScrollEventArgs> ScrollChange;
+        public event EventHandler<HtmlScrollEventArgs>? ScrollChange;
 
         /// <summary>
         /// Raised when an error occurred during html rendering.<br/>
@@ -261,37 +198,30 @@ namespace TheArtOfDev.HtmlRenderer.Core
         /// <remarks>
         /// There is no guarantee that the event will be raised on the main thread, it can be raised on thread-pool thread.
         /// </remarks>
-        public event EventHandler<HtmlRenderErrorEventArgs> RenderError;
+        public event EventHandler<HtmlRenderErrorEventArgs>? RenderError;
 
         /// <summary>
         /// Raised when a stylesheet is about to be loaded by file path or URI by link element.<br/>
         /// This event allows to provide the stylesheet manually or provide new source (file or Uri) to load from.<br/>
         /// If no alternative data is provided the original source will be used.<br/>
         /// </summary>
-        public event EventHandler<HtmlStylesheetLoadEventArgs> StylesheetLoad;
+        public event EventHandler<HtmlStylesheetLoadEventArgs>? StylesheetLoad;
 
         /// <summary>
         /// Raised when an image is about to be loaded by file path or URI.<br/>
         /// This event allows to provide the image manually, if not handled the image will be loaded from file or download from URI.
         /// </summary>
-        public event EventHandler<HtmlImageLoadEventArgs> ImageLoad;
+        public event EventHandler<HtmlImageLoadEventArgs>? ImageLoad;
 
         /// <summary>
         /// the parsed stylesheet data used for handling the html
         /// </summary>
-        public CssData CssData
-        {
-            get { return _cssData; }
-        }
+        public CssData? CssData => _cssData;
 
         /// <summary>
         /// Gets or sets a value indicating if anti-aliasing should be avoided for geometry like backgrounds and borders (default - false).
         /// </summary>
-        public bool AvoidGeometryAntialias
-        {
-            get { return _avoidGeometryAntialias; }
-            set { _avoidGeometryAntialias = value; }
-        }
+        public bool AvoidGeometryAntialias { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating if image asynchronous loading should be avoided (default - false).<br/>
@@ -303,11 +233,7 @@ namespace TheArtOfDev.HtmlRenderer.Core
         /// ports to achieve better performance.<br/>
         /// Asynchronously image loading should be avoided when the full html content must be available during render, like render to image.
         /// </remarks>
-        public bool AvoidAsyncImagesLoading
-        {
-            get { return _avoidAsyncImagesLoading; }
-            set { _avoidAsyncImagesLoading = value; }
-        }
+        public bool AvoidAsyncImagesLoading { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating if image loading only when visible should be avoided (default - false).<br/>
@@ -322,30 +248,18 @@ namespace TheArtOfDev.HtmlRenderer.Core
         /// Early image loading may also effect the layout if image without known size above the current scroll location are loaded as they
         /// will push the html elements down.
         /// </remarks>
-        public bool AvoidImagesLateLoading
-        {
-            get { return _avoidImagesLateLoading; }
-            set { _avoidImagesLateLoading = value; }
-        }
+        public bool AvoidImagesLateLoading { get; set; }
 
         /// <summary>
         /// Is content selection is enabled for the rendered html (default - true).<br/>
         /// If set to 'false' the rendered html will be static only with ability to click on links.
         /// </summary>
-        public bool IsSelectionEnabled
-        {
-            get { return _isSelectionEnabled; }
-            set { _isSelectionEnabled = value; }
-        }
+        public bool IsSelectionEnabled { get; set; } = true;
 
         /// <summary>
         /// Is the build-in context menu enabled and will be shown on mouse right click (default - true)
         /// </summary>
-        public bool IsContextMenuEnabled
-        {
-            get { return _isContextMenuEnabled; }
-            set { _isContextMenuEnabled = value; }
-        }
+        public bool IsContextMenuEnabled { get; set; } = true;
 
         /// <summary>
         /// The scroll offset of the html.<br/>
@@ -355,11 +269,7 @@ namespace TheArtOfDev.HtmlRenderer.Core
         /// Element that is rendered at location (50,100) with offset of (0,200) will not be rendered as it
         /// will be at -100 therefore outside the client rectangle.
         /// </example>
-        public RPoint ScrollOffset
-        {
-            get { return _scrollOffset; }
-            set { _scrollOffset = value; }
-        }
+        public RPoint ScrollOffset { get; set; }
 
         /// <summary>
         /// The top-left most location of the rendered html.<br/>
@@ -367,8 +277,8 @@ namespace TheArtOfDev.HtmlRenderer.Core
         /// </summary>
         public RPoint Location
         {
-            get { return _location; }
-            set { _location = value; }
+            get => _location;
+            set => _location = value;
         }
 
         /// <summary>
@@ -380,8 +290,8 @@ namespace TheArtOfDev.HtmlRenderer.Core
         /// </summary>
         public RSize MaxSize
         {
-            get { return _maxSize; }
-            set { _maxSize = value; }
+            get => _maxSize;
+            set => _maxSize = value;
         }
 
         /// <summary>
@@ -389,8 +299,8 @@ namespace TheArtOfDev.HtmlRenderer.Core
         /// </summary>
         public RSize ActualSize
         {
-            get { return _actualSize; }
-            set { _actualSize = value; }
+            get => _actualSize;
+            set => _actualSize = value;
         }
 
         public RSize PageSize { get; set; }
@@ -400,7 +310,7 @@ namespace TheArtOfDev.HtmlRenderer.Core
         /// </summary>
         public int MarginTop
         {
-            get { return _marginTop; }
+            get => _marginTop;
             set
             {
                 if (value > -1)
@@ -413,7 +323,7 @@ namespace TheArtOfDev.HtmlRenderer.Core
         /// </summary>
         public int MarginBottom
         {
-            get { return _marginBottom; }
+            get => _marginBottom;
             set
             {
                 if (value > -1)
@@ -426,7 +336,7 @@ namespace TheArtOfDev.HtmlRenderer.Core
         /// </summary>
         public int MarginLeft
         {
-            get { return _marginLeft; }
+            get => _marginLeft;
             set
             {
                 if (value > -1)
@@ -439,7 +349,7 @@ namespace TheArtOfDev.HtmlRenderer.Core
         /// </summary>
         public int MarginRight
         {
-            get { return _marginRight; }
+            get => _marginRight;
             set
             {
                 if (value > -1)
@@ -460,63 +370,46 @@ namespace TheArtOfDev.HtmlRenderer.Core
         /// <summary>
         /// Get the currently selected text segment in the html.
         /// </summary>
-        public string SelectedText
-        {
-            get { return _selectionHandler.GetSelectedText(); }
-        }
+        public string? SelectedText => _selectionHandler?.GetSelectedText();
 
         /// <summary>
         /// Copy the currently selected html segment with style.
         /// </summary>
-        public string SelectedHtml
-        {
-            get { return _selectionHandler.GetSelectedHtml(); }
-        }
+        public string? SelectedHtml => _selectionHandler?.GetSelectedHtml();
 
         /// <summary>
         /// the root css box of the parsed html
         /// </summary>
-        internal CssBox Root
-        {
-            get { return _root; }
-        }
+        internal CssBox? Root { get; private set; }
 
         /// <summary>
         /// the text fore color use for selected text
         /// </summary>
-        internal RColor SelectionForeColor
-        {
-            get { return _selectionForeColor; }
-            set { _selectionForeColor = value; }
-        }
+        internal RColor SelectionForeColor { get; set; }
 
         /// <summary>
         /// the back-color to use for selected text
         /// </summary>
-        internal RColor SelectionBackColor
-        {
-            get { return _selectionBackColor; }
-            set { _selectionBackColor = value; }
-        }
+        internal RColor SelectionBackColor { get; set; }
 
         /// <summary>
         /// Init with optional document and stylesheet.
         /// </summary>
         /// <param name="htmlSource">the html to init with, init empty if not given</param>
         /// <param name="baseCssData">optional: the stylesheet to init with, init default if not given</param>
-        public void SetHtml(string htmlSource, CssData baseCssData = null)
+        public void SetHtml(string htmlSource, CssData? baseCssData = null)
         {
             Clear();
             if (!string.IsNullOrEmpty(htmlSource))
             {
                 _loadComplete = false;
-                _cssData = baseCssData ?? _adapter.DefaultCssData;
+                _cssData = baseCssData ?? Adapter.DefaultCssData;
 
-                DomParser parser = new DomParser(_cssParser);
-                _root = parser.GenerateCssTree(htmlSource, this, ref _cssData);
-                if (_root != null)
+                DomParser parser = new DomParser(CssParser);
+                Root = parser.GenerateCssTree(htmlSource, this, ref _cssData);
+                if (Root != null)
                 {
-                    _selectionHandler = new SelectionHandler(_root);
+                    _selectionHandler = new SelectionHandler(Root);
                     _imageDownloader = new ImageDownloader();
                 }
             }
@@ -527,10 +420,10 @@ namespace TheArtOfDev.HtmlRenderer.Core
         /// </summary>
         public void Clear()
         {
-            if (_root != null)
+            if (Root != null)
             {
-                _root.Dispose();
-                _root = null;
+                Root.Dispose();
+                Root = null;
 
                 if (_selectionHandler != null)
                     _selectionHandler.Dispose();
@@ -563,7 +456,7 @@ namespace TheArtOfDev.HtmlRenderer.Core
         /// <returns>generated html</returns>
         public string GetHtml(HtmlGenerationStyle styleGen = HtmlGenerationStyle.Inline)
         {
-            return DomUtils.GenerateHtml(_root, styleGen);
+            return DomUtils.GenerateHtml(Root, styleGen);
         }
 
         /// <summary>
@@ -573,11 +466,11 @@ namespace TheArtOfDev.HtmlRenderer.Core
         /// <param name="location">the location to find the attribute at</param>
         /// <param name="attribute">the attribute key to get value by</param>
         /// <returns>found attribute value or null if not found</returns>
-        public string GetAttributeAt(RPoint location, string attribute)
+        public string? GetAttributeAt(RPoint location, string attribute)
         {
             ArgChecker.AssertArgNotNullOrEmpty(attribute, "attribute");
 
-            var cssBox = DomUtils.GetCssBox(_root, OffsetByScroll(location));
+            var cssBox = DomUtils.GetCssBox(Root, OffsetByScroll(location));
             return cssBox != null ? DomUtils.GetAttribute(cssBox, attribute) : null;
         }
 
@@ -588,7 +481,7 @@ namespace TheArtOfDev.HtmlRenderer.Core
         public List<LinkElementData<RRect>> GetLinks()
         {
             var linkBoxes = new List<CssBox>();
-            DomUtils.GetAllLinkBoxes(_root, linkBoxes);
+            DomUtils.GetAllLinkBoxes(Root, linkBoxes);
 
             var linkElements = new List<LinkElementData<RRect>>();
             foreach (var box in linkBoxes)
@@ -603,10 +496,10 @@ namespace TheArtOfDev.HtmlRenderer.Core
         /// </summary>
         /// <param name="location">the location to find the link at</param>
         /// <returns>css link href if exists or null</returns>
-        public string GetLinkAt(RPoint location)
+        public string? GetLinkAt(RPoint location)
         {
-            var link = DomUtils.GetLinkBox(_root, OffsetByScroll(location));
-            return link != null ? link.HrefLink : null;
+            var link = DomUtils.GetLinkBox(Root, OffsetByScroll(location));
+            return link?.HrefLink;
         }
 
         /// <summary>
@@ -620,8 +513,8 @@ namespace TheArtOfDev.HtmlRenderer.Core
         {
             ArgChecker.AssertArgNotNullOrEmpty(elementId, "elementId");
 
-            var box = DomUtils.GetBoxById(_root, elementId.ToLower());
-            return box != null ? CommonUtils.GetFirstValueOrDefault(box.Rectangles, box.Bounds) : (RRect?)null;
+            var box = DomUtils.GetBoxById(Root, elementId.ToLower());
+            return box != null ? CommonUtils.GetFirstValueOrDefault(box.Rectangles, box.Bounds) : null;
         }
 
         /// <summary>
@@ -633,27 +526,26 @@ namespace TheArtOfDev.HtmlRenderer.Core
             ArgChecker.AssertArgNotNull(g, "g");
 
             _actualSize = RSize.Empty;
-            if (_root != null)
+            if (Root != null)
             {
                 // if width is not restricted we set it to large value to get the actual later
-                _root.Size = new RSize(_maxSize.Width > 0 ? _maxSize.Width : 99999, 0);
-                _root.Location = _location;
-                _root.PerformLayout(g);
+                Root.Size = new RSize(_maxSize.Width > 0 ? _maxSize.Width : 99999, 0);
+                Root.Location = _location;
+                Root.PerformLayout(g);
 
                 if (_maxSize.Width <= 0.1)
                 {
                     // in case the width is not restricted we need to double layout, first will find the width so second can layout by it (center alignment)
-                    _root.Size = new RSize((int)Math.Ceiling(_actualSize.Width), 0);
+                    Root.Size = new RSize((int)Math.Ceiling(_actualSize.Width), 0);
                     _actualSize = RSize.Empty;
-                    _root.PerformLayout(g);
+                    Root.PerformLayout(g);
                 }
 
                 if (!_loadComplete)
                 {
                     _loadComplete = true;
-                    EventHandler handler = LoadComplete;
-                    if (handler != null)
-                        handler(this, EventArgs.Empty);
+                    var handler = LoadComplete;
+                    handler?.Invoke(this, EventArgs.Empty);
                 }
             }
         }
@@ -675,9 +567,9 @@ namespace TheArtOfDev.HtmlRenderer.Core
                 g.PushClip(new RRect(MarginLeft, MarginTop, PageSize.Width, PageSize.Height));
             }
 
-            if (_root != null)
+            if (Root != null)
             {
-                _root.Paint(g);
+                Root.Paint(g);
             }
 
             g.PopClip();
@@ -721,7 +613,7 @@ namespace TheArtOfDev.HtmlRenderer.Core
                     if (!ignore && e.LeftButton)
                     {
                         var loc = OffsetByScroll(location);
-                        var link = DomUtils.GetLinkBox(_root, loc);
+                        var link = DomUtils.GetLinkBox(Root, loc);
                         if (link != null)
                         {
                             HandleLinkClicked(parent, location, link);
@@ -861,9 +753,8 @@ namespace TheArtOfDev.HtmlRenderer.Core
         {
             try
             {
-                EventHandler<HtmlStylesheetLoadEventArgs> handler = StylesheetLoad;
-                if (handler != null)
-                    handler(this, args);
+                var handler = StylesheetLoad;
+                handler?.Invoke(this, args);
             }
             catch (Exception ex)
             {
@@ -879,9 +770,8 @@ namespace TheArtOfDev.HtmlRenderer.Core
         {
             try
             {
-                EventHandler<HtmlImageLoadEventArgs> handler = ImageLoad;
-                if (handler != null)
-                    handler(this, args);
+                var handler = ImageLoad;
+                handler?.Invoke(this, args);
             }
             catch (Exception ex)
             {
@@ -897,9 +787,8 @@ namespace TheArtOfDev.HtmlRenderer.Core
         {
             try
             {
-                EventHandler<HtmlRefreshEventArgs> handler = Refresh;
-                if (handler != null)
-                    handler(this, new HtmlRefreshEventArgs(layout));
+                var handler = Refresh;
+                handler?.Invoke(this, new HtmlRefreshEventArgs(layout));
             }
             catch (Exception ex)
             {
@@ -913,16 +802,17 @@ namespace TheArtOfDev.HtmlRenderer.Core
         /// <param name="type">the type of error to report</param>
         /// <param name="message">the error message</param>
         /// <param name="exception">optional: the exception that occured</param>
-        internal void ReportError(HtmlRenderErrorType type, string message, Exception exception = null)
+        internal void ReportError(HtmlRenderErrorType type, string message, Exception? exception = null)
         {
             try
             {
-                EventHandler<HtmlRenderErrorEventArgs> handler = RenderError;
-                if (handler != null)
-                    handler(this, new HtmlRenderErrorEventArgs(type, message, exception));
+                var handler = RenderError;
+                handler?.Invoke(this, new HtmlRenderErrorEventArgs(type, message, exception));
             }
             catch
-            { }
+            {
+                // ignored
+            }
         }
 
         /// <summary>
@@ -933,10 +823,10 @@ namespace TheArtOfDev.HtmlRenderer.Core
         /// <param name="link">the link that was clicked</param>
         internal void HandleLinkClicked(RControl parent, RPoint location, CssBox link)
         {
-            EventHandler<HtmlLinkClickedEventArgs> clickHandler = LinkClicked;
+            var clickHandler = LinkClicked;
             if (clickHandler != null)
             {
-                var args = new HtmlLinkClickedEventArgs(link.HrefLink, link.HtmlTag.Attributes);
+                var args = new HtmlLinkClickedEventArgs(link.HrefLink, link.HtmlTag!.Attributes);
                 try
                 {
                     clickHandler(this, args);
@@ -953,7 +843,7 @@ namespace TheArtOfDev.HtmlRenderer.Core
             {
                 if (link.HrefLink.StartsWith("#") && link.HrefLink.Length > 1)
                 {
-                    EventHandler<HtmlScrollEventArgs> scrollHandler = ScrollChange;
+                    var scrollHandler = ScrollChange;
                     if (scrollHandler != null)
                     {
                         var rect = GetElementRectangle(link.HrefLink.Substring(1));
@@ -993,7 +883,7 @@ namespace TheArtOfDev.HtmlRenderer.Core
         /// Get image downloader to be used to download images for the current html rendering.<br/>
         /// Lazy create single downloader to be used for all images in the current html.
         /// </summary>
-        internal ImageDownloader GetImageDownloader()
+        internal ImageDownloader? GetImageDownloader()
         {
             return _imageDownloader;
         }
@@ -1046,15 +936,17 @@ namespace TheArtOfDev.HtmlRenderer.Core
                 }
 
                 _cssData = null;
-                if (_root != null)
-                    _root.Dispose();
-                _root = null;
+                if (Root != null)
+                    Root.Dispose();
+                Root = null;
                 if (_selectionHandler != null)
                     _selectionHandler.Dispose();
                 _selectionHandler = null;
             }
             catch
-            { }
+            {
+                // ignored
+            }
         }
 
         #endregion

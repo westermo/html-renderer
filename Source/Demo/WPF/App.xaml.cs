@@ -15,7 +15,7 @@ using System.Globalization;
 using System.IO;
 using System.Reflection;
 
-namespace TheArtOfDev.HtmlRenderer.Demo.WPF
+namespace Westermo.HtmlRenderer.Demo.WPF
 {
     /// <summary>
     /// Interaction logic for App.xaml

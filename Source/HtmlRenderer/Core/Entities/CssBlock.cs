@@ -11,9 +11,9 @@
 // "The Art of War"
 
 using System.Collections.Generic;
-using TheArtOfDev.HtmlRenderer.Core.Utils;
+using Westermo.HtmlRenderer.Core.Utils;
 
-namespace TheArtOfDev.HtmlRenderer.Core.Entities
+namespace Westermo.HtmlRenderer.Core.Entities
 {
     /// <summary>
     /// Represents a block of CSS property values.<br/>
@@ -40,7 +40,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Entities
         /// <summary>
         /// additional selectors to used in hierarchy (p className1 > className2)
         /// </summary>
-        private readonly List<CssBlockSelectorItem> _selectors;
+        private readonly List<CssBlockSelectorItem>? _selectors;
 
         /// <summary>
         /// is the css block has :hover pseudo-class
@@ -57,7 +57,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Entities
         /// <param name="properties">the CSS block properties and values</param>
         /// <param name="selectors">optional: additional selectors to used in hierarchy</param>
         /// <param name="hover">optional: is the css block has :hover pseudo-class</param>
-        public CssBlock(string @class, Dictionary<string, string> properties, List<CssBlockSelectorItem> selectors = null, bool hover = false)
+        public CssBlock(string @class, Dictionary<string, string> properties, List<CssBlockSelectorItem>? selectors = null, bool hover = false)
         {
             ArgChecker.AssertArgNotNullOrEmpty(@class, "@class");
             ArgChecker.AssertArgNotNull(properties, "properties");
@@ -71,34 +71,22 @@ namespace TheArtOfDev.HtmlRenderer.Core.Entities
         /// <summary>
         /// the name of the css class of the block
         /// </summary>
-        public string Class
-        {
-            get { return _class; }
-        }
+        public string Class => _class;
 
         /// <summary>
         /// additional selectors to used in hierarchy (p className1 > className2)
         /// </summary>
-        public List<CssBlockSelectorItem> Selectors
-        {
-            get { return _selectors; }
-        }
+        public List<CssBlockSelectorItem>? Selectors => _selectors;
 
         /// <summary>
         /// Gets the CSS block properties and its values
         /// </summary>
-        public IDictionary<string, string> Properties
-        {
-            get { return _properties; }
-        }
+        public IDictionary<string, string> Properties => _properties;
 
         /// <summary>
         /// is the css block has :hover pseudo-class
         /// </summary>
-        public bool Hover
-        {
-            get { return _hover; }
-        }
+        public bool Hover => _hover;
 
         /// <summary>
         /// Merge the other block properties into this css block.<br/>
@@ -129,7 +117,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Entities
         /// </summary>
         /// <param name="other">the other block to compare to</param>
         /// <returns>true - the two blocks are the same, false - otherwise</returns>
-        public bool Equals(CssBlock other)
+        public bool Equals(CssBlock? other)
         {
             if (ReferenceEquals(null, other))
                 return false;
@@ -160,7 +148,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Entities
         /// </summary>
         /// <param name="other">the other block to compare to</param>
         /// <returns>true - the selectors on blocks are the same, false - otherwise</returns>
-        public bool EqualsSelector(CssBlock other)
+        public bool EqualsSelector(CssBlock? other)
         {
             if (ReferenceEquals(null, other))
                 return false;
@@ -196,7 +184,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Entities
         /// </summary>
         /// <param name="obj">the other block to compare to</param>
         /// <returns>true - the two blocks are the same, false - otherwise</returns>
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
             if (ReferenceEquals(null, obj))
                 return false;
@@ -215,7 +203,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Entities
         {
             unchecked
             {
-                return ((_class != null ? _class.GetHashCode() : 0) * 397) ^ (_properties != null ? _properties.GetHashCode() : 0);
+                return (_class.GetHashCode() * 397) ^ _properties.GetHashCode();
             }
         }
 

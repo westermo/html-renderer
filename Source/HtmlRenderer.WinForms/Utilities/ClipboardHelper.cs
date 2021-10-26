@@ -14,7 +14,7 @@ using System;
 using System.Text;
 using System.Windows.Forms;
 
-namespace TheArtOfDev.HtmlRenderer.WinForms.Utilities
+namespace Westermo.HtmlRenderer.WinForms.Utilities
 {
     /// <summary>
     /// Helper to encode and set HTML fragment to clipboard.<br/>

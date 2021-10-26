@@ -13,7 +13,7 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace TheArtOfDev.HtmlRenderer.Core.Parse
+namespace Westermo.HtmlRenderer.Core.Parse
 {
     /// <summary>
     /// Collection of regular expressions used when parsing
@@ -148,10 +148,9 @@ namespace TheArtOfDev.HtmlRenderer.Core.Parse
         /// <param name="regex"></param>
         /// <param name="source"></param>
         /// <returns></returns>
-        public static string Search(string regex, string source)
+        public static string? Search(string regex, string source)
         {
-            int position;
-            return Search(regex, source, out position);
+            return Search(regex, source, out _);
         }
 
         /// <summary>
@@ -161,7 +160,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Parse
         /// <param name="source"></param>
         /// <param name="position"> </param>
         /// <returns></returns>
-        public static string Search(string regex, string source, out int position)
+        public static string? Search(string regex, string source, out int position)
         {
             MatchCollection matches = Match(regex, source);
 

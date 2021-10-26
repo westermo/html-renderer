@@ -16,10 +16,10 @@ using System.IO;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Threading;
-using TheArtOfDev.HtmlRenderer.Demo.Common;
-using TheArtOfDev.HtmlRenderer.WPF;
+using Westermo.HtmlRenderer.Demo.Common;
+using Westermo.HtmlRenderer.WPF;
 
-namespace TheArtOfDev.HtmlRenderer.Demo.WPF
+namespace Westermo.HtmlRenderer.Demo.WPF
 {
     /// <summary>
     /// Interaction logic for DemoWindow.xaml

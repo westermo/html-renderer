@@ -13,14 +13,14 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using TheArtOfDev.HtmlRenderer.Adapters;
-using TheArtOfDev.HtmlRenderer.Adapters.Entities;
-using TheArtOfDev.HtmlRenderer.Core.Entities;
-using TheArtOfDev.HtmlRenderer.Core.Handlers;
-using TheArtOfDev.HtmlRenderer.Core.Parse;
-using TheArtOfDev.HtmlRenderer.Core.Utils;
+using Westermo.HtmlRenderer.Adapters;
+using Westermo.HtmlRenderer.Adapters.Entities;
+using Westermo.HtmlRenderer.Core.Entities;
+using Westermo.HtmlRenderer.Core.Handlers;
+using Westermo.HtmlRenderer.Core.Parse;
+using Westermo.HtmlRenderer.Core.Utils;
 
-namespace TheArtOfDev.HtmlRenderer.Core.Dom
+namespace Westermo.HtmlRenderer.Core.Dom
 {
     /// <summary>
     /// Represents a CSS Box of text or replaced elements.
@@ -39,28 +39,22 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
         /// <summary>
         /// the parent css box of this css box in the hierarchy
         /// </summary>
-        private CssBox _parentBox;
+        private CssBox? _parentBox;
 
         /// <summary>
         /// the root container for the hierarchy
         /// </summary>
-        protected HtmlContainerInt _htmlContainer;
+        protected HtmlContainerInt? _htmlContainer;
 
         /// <summary>
         /// the html tag that is associated with this css box, null if anonymous box
         /// </summary>
-        private readonly HtmlTag _htmltag;
-
-        private readonly List<CssRect> _boxWords = new List<CssRect>();
-        private readonly List<CssBox> _boxes = new List<CssBox>();
-        private readonly List<CssLineBox> _lineBoxes = new List<CssLineBox>();
-        private readonly List<CssLineBox> _parentLineBoxes = new List<CssLineBox>();
-        private readonly Dictionary<CssLineBox, RRect> _rectangles = new Dictionary<CssLineBox, RRect>();
+        private readonly HtmlTag? _htmltag;
 
         /// <summary>
         /// the inner text of the box
         /// </summary>
-        private SubString _text;
+        private SubString? _text;
 
         /// <summary>
         /// Do not use or alter this flag
@@ -71,14 +65,12 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
         internal bool _tableFixed;
 
         protected bool _wordsSizeMeasured;
-        private CssBox _listItemBox;
-        private CssLineBox _firstHostingLineBox;
-        private CssLineBox _lastHostingLineBox;
+        private CssBox? _listItemBox;
 
         /// <summary>
         /// handler for loading background image
         /// </summary>
-        private ImageLoadHandler _imageLoadHandler;
+        private ImageLoadHandler? _imageLoadHandler;
 
         #endregion
 
@@ -88,7 +80,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
         /// </summary>
         /// <param name="parentBox">optional: the parent of this css box in html</param>
         /// <param name="tag">optional: the html tag associated with this css box</param>
-        public CssBox(CssBox parentBox, HtmlTag tag)
+        public CssBox(CssBox? parentBox, HtmlTag? tag)
         {
             if (parentBox != null)
             {
@@ -102,73 +94,53 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
         /// Gets the HtmlContainer of the Box.
         /// WARNING: May be null.
         /// </summary>
-        public HtmlContainerInt HtmlContainer
+        public HtmlContainerInt? HtmlContainer
         {
-            get { return _htmlContainer ?? (_htmlContainer = _parentBox != null ? _parentBox.HtmlContainer : null); }
-            set { _htmlContainer = value; }
+            get => _htmlContainer ??= _parentBox?.HtmlContainer;
+            set => _htmlContainer = value;
         }
 
         /// <summary>
         /// Gets or sets the parent box of this box
         /// </summary>
-        public CssBox ParentBox
+        public CssBox? ParentBox
         {
-            get { return _parentBox; }
+            get => _parentBox;
             set
             {
                 //Remove from last parent
-                if (_parentBox != null)
-                    _parentBox.Boxes.Remove(this);
-
+                _parentBox?.Boxes.Remove(this);
                 _parentBox = value;
 
                 //Add to new parent
-                if (value != null)
-                    _parentBox.Boxes.Add(this);
+                _parentBox?.Boxes.Add(this);
             }
         }
 
         /// <summary>
         /// Gets the children boxes of this box
         /// </summary>
-        public List<CssBox> Boxes
-        {
-            get { return _boxes; }
-        }
+        public List<CssBox> Boxes { get; } = new List<CssBox>();
 
         /// <summary>
         /// Is the box is of "br" element.
         /// </summary>
-        public bool IsBrElement
-        {
-            get {
-                return _htmltag != null && _htmltag.Name.Equals("br", StringComparison.InvariantCultureIgnoreCase);
-            }
-        }
+        public bool IsBrElement => _htmltag != null && _htmltag.Name.Equals("br", StringComparison.InvariantCultureIgnoreCase);
 
         /// <summary>
         /// is the box "Display" is "Inline", is this is an inline box and not block.
         /// </summary>
-        public bool IsInline
-        {
-            get { return (Display == CssConstants.Inline || Display == CssConstants.InlineBlock) && !IsBrElement; }
-        }
+        public bool IsInline => Display is CssConstants.Inline or CssConstants.InlineBlock && !IsBrElement;
 
         /// <summary>
         /// is the box "Display" is "Block", is this is an block box and not inline.
         /// </summary>
-        public bool IsBlock
-        {
-            get { return Display == CssConstants.Block; }
-        }
+        public bool IsBlock => Display == CssConstants.Block;
 
         /// <summary>
         /// Is the css box clickable (by default only "a" element is clickable)
         /// </summary>
-        public virtual bool IsClickable
-        {
-            get { return HtmlTag != null && HtmlTag.Name == HtmlConstants.A && !HtmlTag.HasAttribute("id"); }
-        }
+        public virtual bool IsClickable => HtmlTag is {Name: HtmlConstants.A} && !HtmlTag.HasAttribute("id");
 
         /// <summary>
         /// Gets a value indicating whether this instance or one of its parents has Position = fixed.
@@ -203,10 +175,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
         /// <summary>
         /// Get the href link of the box (by default get "href" attribute)
         /// </summary>
-        public virtual string HrefLink
-        {
-            get { return GetAttribute(HtmlConstants.Href); }
-        }
+        public virtual string HrefLink => GetAttribute(HtmlConstants.Href);
 
         /// <summary>
         /// Gets the containing block-box of this box. (The nearest parent box with display=block)
@@ -241,18 +210,12 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
         /// <summary>
         /// Gets the HTMLTag that hosts this box
         /// </summary>
-        public HtmlTag HtmlTag
-        {
-            get { return _htmltag; }
-        }
+        public HtmlTag? HtmlTag => _htmltag;
 
         /// <summary>
         /// Gets if this box represents an image
         /// </summary>
-        public bool IsImage
-        {
-            get { return Words.Count == 1 && Words[0].IsImage; }
-        }
+        public bool IsImage => Words.Count == 1 && Words[0].IsImage;
 
         /// <summary>
         /// Tells if the box is empty or contains just blank spaces
@@ -278,73 +241,50 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
         /// <summary>
         /// Gets or sets the inner text of the box
         /// </summary>
-        public SubString Text
+        public SubString? Text
         {
-            get { return _text; }
+            get => _text;
             set
             {
                 _text = value;
-                _boxWords.Clear();
+                Words.Clear();
             }
         }
 
         /// <summary>
         /// Gets the line-boxes of this box (if block box)
         /// </summary>
-        internal List<CssLineBox> LineBoxes
-        {
-            get { return _lineBoxes; }
-        }
+        internal List<CssLineBox> LineBoxes { get; } = new List<CssLineBox>();
 
         /// <summary>
         /// Gets the linebox(es) that contains words of this box (if inline)
         /// </summary>
-        internal List<CssLineBox> ParentLineBoxes
-        {
-            get { return _parentLineBoxes; }
-        }
+        internal List<CssLineBox> ParentLineBoxes { get; } = new List<CssLineBox>();
 
         /// <summary>
         /// Gets the rectangles where this box should be painted
         /// </summary>
-        internal Dictionary<CssLineBox, RRect> Rectangles
-        {
-            get { return _rectangles; }
-        }
+        internal Dictionary<CssLineBox, RRect> Rectangles { get; } = new Dictionary<CssLineBox, RRect>();
 
         /// <summary>
         /// Gets the BoxWords of text in the box
         /// </summary>
-        internal List<CssRect> Words
-        {
-            get { return _boxWords; }
-        }
+        internal List<CssRect> Words { get; } = new List<CssRect>();
 
         /// <summary>
         /// Gets the first word of the box
         /// </summary>
-        internal CssRect FirstWord
-        {
-            get { return Words[0]; }
-        }
+        internal CssRect FirstWord => Words[0];
 
         /// <summary>
         /// Gets or sets the first linebox where content of this box appear
         /// </summary>
-        internal CssLineBox FirstHostingLineBox
-        {
-            get { return _firstHostingLineBox; }
-            set { _firstHostingLineBox = value; }
-        }
+        internal CssLineBox? FirstHostingLineBox { get; set; }
 
         /// <summary>
         /// Gets or sets the last linebox where content of this box appear
         /// </summary>
-        internal CssLineBox LastHostingLineBox
-        {
-            get { return _lastHostingLineBox; }
-            set { _lastHostingLineBox = value; }
-        }
+        internal CssLineBox? LastHostingLineBox { get; set; }
 
         /// <summary>
         /// Create new css box for the given parent with the given html tag.<br/>
@@ -352,26 +292,17 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
         /// <param name="tag">the html tag to define the box</param>
         /// <param name="parent">the box to add the new box to it as child</param>
         /// <returns>the new box</returns>
-        public static CssBox CreateBox(HtmlTag tag, CssBox parent = null)
+        public static CssBox CreateBox(HtmlTag tag, CssBox? parent = null)
         {
             ArgChecker.AssertArgNotNull(tag, "tag");
 
-            if (tag.Name == HtmlConstants.Img)
+            return tag.Name switch
             {
-                return new CssBoxImage(parent, tag);
-            }
-            else if (tag.Name == HtmlConstants.Iframe)
-            {
-                return new CssBoxFrame(parent, tag);
-            }
-            else if (tag.Name == HtmlConstants.Hr)
-            {
-                return new CssBoxHr(parent, tag);
-            }
-            else
-            {
-                return new CssBox(parent, tag);
-            }
+                HtmlConstants.Img => new CssBoxImage(parent, tag),
+                HtmlConstants.Iframe => new CssBoxFrame(parent, tag),
+                HtmlConstants.Hr => new CssBoxHr(parent, tag),
+                _ => new CssBox(parent, tag)
+            };
         }
 
         /// <summary>
@@ -388,7 +319,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
         /// <param name="tag">optional: the html tag to define the box</param>
         /// <param name="before">optional: to insert as specific location in parent box</param>
         /// <returns>the new box</returns>
-        public static CssBox CreateBox(CssBox parent, HtmlTag tag = null, CssBox before = null)
+        public static CssBox CreateBox(CssBox parent, HtmlTag? tag = null, CssBox? before = null)
         {
             ArgChecker.AssertArgNotNull(parent, "parent");
 
@@ -427,7 +358,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
         /// <param name="tag">optional: the html tag to define the box</param>
         /// <param name="before">optional: to insert as specific location in parent box</param>
         /// <returns>the new block box</returns>
-        public static CssBox CreateBlock(CssBox parent, HtmlTag tag = null, CssBox before = null)
+        public static CssBox CreateBlock(CssBox parent, HtmlTag? tag = null, CssBox? before = null)
         {
             ArgChecker.AssertArgNotNull(parent, "parent");
 
@@ -449,7 +380,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
             }
             catch (Exception ex)
             {
-                HtmlContainer.ReportError(HtmlRenderErrorType.Layout, "Exception in box layout", ex);
+                HtmlContainer!.ReportError(HtmlRenderErrorType.Layout, "Exception in box layout", ex);
             }
         }
 
@@ -480,7 +411,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
                         if (!IsFixed)
                         {
                             //rect.Offset(new RPoint(-HtmlContainer.Location.X, -HtmlContainer.Location.Y));
-                            rect.Offset(HtmlContainer.ScrollOffset);
+                            rect.Offset(HtmlContainer!.ScrollOffset);
                         }
                         clip.Intersect(rect);
 
@@ -501,7 +432,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
             }
             catch (Exception ex)
             {
-                HtmlContainer.ReportError(HtmlRenderErrorType.Paint, "Exception in box paint", ex);
+                HtmlContainer!.ReportError(HtmlRenderErrorType.Paint, "Exception in box paint", ex);
             }
         }
 
@@ -511,7 +442,10 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
         /// <param name="before"></param>
         public void SetBeforeBox(CssBox before)
         {
-            int index = _parentBox.Boxes.IndexOf(before);
+            if (_parentBox is null)
+                throw new InvalidOperationException("This CssBox has no parent.");
+            
+            var index = _parentBox.Boxes.IndexOf(before);
             if (index < 0)
                 throw new Exception("before box doesn't exist on parent");
 
@@ -525,11 +459,11 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
         /// <param name="fromBox">the box to move all its child boxes from</param>
         public void SetAllBoxes(CssBox fromBox)
         {
-            foreach (var childBox in fromBox._boxes)
+            foreach (var childBox in fromBox.Boxes)
                 childBox._parentBox = this;
 
-            _boxes.AddRange(fromBox._boxes);
-            fromBox._boxes.Clear();
+            Boxes.AddRange(fromBox.Boxes);
+            fromBox.Boxes.Clear();
         }
 
         /// <summary>
@@ -537,11 +471,14 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
         /// </summary>
         public void ParseToWords()
         {
-            _boxWords.Clear();
+            Words.Clear();
 
-            int startIdx = 0;
-            bool preserveSpaces = WhiteSpace == CssConstants.Pre || WhiteSpace == CssConstants.PreWrap;
-            bool respoctNewline = preserveSpaces || WhiteSpace == CssConstants.PreLine;
+            if (_text is null)
+                return;
+
+            var startIdx = 0;
+            var preserveSpaces = WhiteSpace == CssConstants.Pre || WhiteSpace == CssConstants.PreWrap;
+            var respectNewline = preserveSpaces || WhiteSpace == CssConstants.PreLine;
             while (startIdx < _text.Length)
             {
                 while (startIdx < _text.Length && _text[startIdx] == '\r')
@@ -556,7 +493,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
                     if (endIdx > startIdx)
                     {
                         if (preserveSpaces)
-                            _boxWords.Add(new CssRectWord(this, HtmlUtils.DecodeHtml(_text.Substring(startIdx, endIdx - startIdx)), false, false));
+                            Words.Add(new CssRectWord(this, HtmlUtils.DecodeHtml(_text.Substring(startIdx, endIdx - startIdx)), false, false));
                     }
                     else
                     {
@@ -569,9 +506,9 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
 
                         if (endIdx > startIdx)
                         {
-                            var hasSpaceBefore = !preserveSpaces && (startIdx > 0 && _boxWords.Count == 0 && char.IsWhiteSpace(_text[startIdx - 1]));
+                            var hasSpaceBefore = !preserveSpaces && (startIdx > 0 && Words.Count == 0 && char.IsWhiteSpace(_text[startIdx - 1]));
                             var hasSpaceAfter = !preserveSpaces && (endIdx < _text.Length && char.IsWhiteSpace(_text[endIdx]));
-                            _boxWords.Add(new CssRectWord(this, HtmlUtils.DecodeHtml(_text.Substring(startIdx, endIdx - startIdx)), hasSpaceBefore, hasSpaceAfter));
+                            Words.Add(new CssRectWord(this, HtmlUtils.DecodeHtml(_text.Substring(startIdx, endIdx - startIdx)), hasSpaceBefore, hasSpaceAfter));
                         }
                     }
 
@@ -579,8 +516,8 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
                     if (endIdx < _text.Length && _text[endIdx] == '\n')
                     {
                         endIdx++;
-                        if (respoctNewline)
-                            _boxWords.Add(new CssRectWord(this, "\n", false, false));
+                        if (respectNewline)
+                            Words.Add(new CssRectWord(this, "\n", false, false));
                     }
 
                     startIdx = endIdx;
@@ -593,8 +530,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
         /// </summary>
         public virtual void Dispose()
         {
-            if (_imageLoadHandler != null)
-                _imageLoadHandler.Dispose();
+            _imageLoadHandler?.Dispose();
 
             foreach (var childBox in Boxes)
             {
@@ -618,14 +554,14 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
                 MeasureWordsSize(g);
             }
 
-            if (IsBlock || Display == CssConstants.ListItem || Display == CssConstants.Table || Display == CssConstants.InlineTable || Display == CssConstants.TableCell)
+            if (IsBlock || Display is CssConstants.ListItem or CssConstants.Table or CssConstants.InlineTable or CssConstants.TableCell)
             {
                 // Because their width and height are set by CssTable
                 if (Display != CssConstants.TableCell && Display != CssConstants.Table)
                 {
-                    double width = ContainingBlock.Size.Width
-                                   - ContainingBlock.ActualPaddingLeft - ContainingBlock.ActualPaddingRight
-                                   - ContainingBlock.ActualBorderLeftWidth - ContainingBlock.ActualBorderRightWidth;
+                    var width = ContainingBlock.Size.Width
+                                - ContainingBlock.ActualPaddingLeft - ContainingBlock.ActualPaddingRight
+                                - ContainingBlock.ActualBorderLeftWidth - ContainingBlock.ActualBorderRightWidth;
 
                     if (Width != CssConstants.Auto && !string.IsNullOrEmpty(Width))
                     {
@@ -653,13 +589,14 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
                     {
                         left = ContainingBlock.Location.X + ContainingBlock.ActualPaddingLeft + ActualMarginLeft + ContainingBlock.ActualBorderLeftWidth;
                         top = (prevSibling == null && ParentBox != null ? ParentBox.ClientTop : ParentBox == null ? Location.Y : 0) + MarginTopCollapse(prevSibling) + (prevSibling != null ? prevSibling.ActualBottom + prevSibling.ActualBorderBottomWidth : 0);
-                        Location = new RPoint(left, top);
-                        ActualBottom = top;
                     }
+                    
+                    Location = new RPoint(left, top);
+                    ActualBottom = top;
                 }
 
                 //If we're talking about a table here..
-                if (Display == CssConstants.Table || Display == CssConstants.InlineTable)
+                if (Display is CssConstants.Table or CssConstants.InlineTable)
                 {
                     CssLayoutEngineTable.PerformLayout(g, this);
                 }
@@ -671,7 +608,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
                         ActualBottom = Location.Y;
                         CssLayoutEngine.CreateLineBoxes(g, this); //This will automatically set the bottom of this block
                     }
-                    else if (_boxes.Count > 0)
+                    else if (Boxes.Count > 0)
                     {
                         foreach (var childBox in Boxes)
                         {
@@ -698,8 +635,8 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
 
             if (!IsFixed)
             {
-                var actualWidth = Math.Max(GetMinimumWidth() + GetWidthMarginDeep(this), Size.Width < 90999 ? ActualRight - HtmlContainer.Root.Location.X : 0);
-                HtmlContainer.ActualSize = CommonUtils.Max(HtmlContainer.ActualSize, new RSize(actualWidth, ActualBottom - HtmlContainer.Root.Location.Y));
+                var actualWidth = Math.Max(GetMinimumWidth() + GetWidthMarginDeep(this), Size.Width < 90999 ? ActualRight - HtmlContainer!.Root.Location.X : 0);
+                HtmlContainer!.ActualSize = CommonUtils.Max(HtmlContainer.ActualSize, new RSize(actualWidth, ActualBottom - HtmlContainer.Root.Location.Y));
             }
         }
 
@@ -713,8 +650,8 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
             {
                 if (BackgroundImage != CssConstants.None && _imageLoadHandler == null)
                 {
-                    _imageLoadHandler = new ImageLoadHandler(HtmlContainer, OnImageLoadComplete);
-                    _imageLoadHandler.LoadImage(BackgroundImage, HtmlTag != null ? HtmlTag.Attributes : null);
+                    _imageLoadHandler = new ImageLoadHandler(HtmlContainer!, OnImageLoadComplete);
+                    _imageLoadHandler.LoadImage(BackgroundImage, HtmlTag?.Attributes);
                 }
 
                 MeasureWordSpacing(g);
@@ -736,7 +673,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
         /// Get the parent of this css properties instance.
         /// </summary>
         /// <returns></returns>
-        protected override sealed CssBoxProperties GetParent()
+        protected sealed override CssBoxProperties? GetParent()
         {
             return _parentBox;
         }
@@ -747,7 +684,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
         /// <returns></returns>
         private int GetIndexForList()
         {
-            bool reversed = !string.IsNullOrEmpty(ParentBox.GetAttribute("reversed"));
+            bool reversed = !string.IsNullOrEmpty(ParentBox!.GetAttribute("reversed"));
             int index;
             if (!int.TryParse(ParentBox.GetAttribute("start"), out index))
             {
@@ -834,7 +771,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
         /// <param name="b"></param>
         /// <param name="line"> </param>
         /// <returns></returns>
-        internal CssRect FirstWordOccourence(CssBox b, CssLineBox line)
+        internal CssRect? FirstWordOccurence(CssBox b, CssLineBox line)
         {
             if (b.Words.Count == 0 && b.Boxes.Count == 0)
             {
@@ -856,7 +793,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
             {
                 foreach (CssBox bb in b.Boxes)
                 {
-                    CssRect w = FirstWordOccourence(bb, line);
+                    var w = FirstWordOccurence(bb, line);
 
                     if (w != null)
                     {
@@ -898,7 +835,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
         internal double GetMinimumWidth()
         {
             double maxWidth = 0;
-            CssRect maxWidthWord = null;
+            CssRect? maxWidthWord = null;
             GetMinimumWidth_LongestWord(this, ref maxWidth, ref maxWidthWord);
 
             double padding = 0f;
@@ -922,7 +859,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
         /// <param name="maxWidth"> </param>
         /// <param name="maxWidthWord"> </param>
         /// <returns></returns>
-        private static void GetMinimumWidth_LongestWord(CssBox box, ref double maxWidth, ref CssRect maxWidthWord)
+        private static void GetMinimumWidth_LongestWord(CssBox box, ref double maxWidth, ref CssRect? maxWidthWord)
         {
             if (box.Words.Count > 0)
             {
@@ -950,12 +887,13 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
         private static double GetWidthMarginDeep(CssBox box)
         {
             double sum = 0f;
-            if (box.Size.Width > 90999 || (box.ParentBox != null && box.ParentBox.Size.Width > 90999))
+            CssBox? currBox = box;
+            if (currBox.Size.Width > 90999 || currBox.ParentBox is {Size: {Width: > 90999}})
             {
-                while (box != null)
+                while (currBox != null)
                 {
-                    sum += box.ActualMarginLeft + box.ActualMarginRight;
-                    box = box.ParentBox;
+                    sum += currBox.ActualMarginLeft + currBox.ActualMarginRight;
+                    currBox = currBox.ParentBox;
                 }
             }
             return sum;
@@ -1082,7 +1020,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
         /// <summary>
         /// Inherits inheritable values from parent.
         /// </summary>
-        internal new void InheritStyle(CssBox box = null, bool everything = false)
+        internal new void InheritStyle(CssBox? box = null, bool everything = false)
         {
             base.InheritStyle(box ?? ParentBox, everything);
         }
@@ -1092,7 +1030,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
         /// </summary>
         /// <param name="prevSibling">the previous box under the same parent</param>
         /// <returns>Resulting top margin</returns>
-        protected double MarginTopCollapse(CssBoxProperties prevSibling)
+        protected double MarginTopCollapse(CssBoxProperties? prevSibling)
         {
             double value;
             if (prevSibling != null)
@@ -1122,7 +1060,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
         {
             var container = this.HtmlContainer;
 
-            if (this.Size.Height >= container.PageSize.Height)
+            if (this.Size.Height >= container!.PageSize.Height)
                 return false;
 
             var remTop = (this.Location.Y - container.MarginTop) % container.PageSize.Height;
@@ -1166,12 +1104,12 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
         private double MarginBottomCollapse()
         {
             double margin = 0;
-            if (ParentBox != null && ParentBox.Boxes.IndexOf(this) == ParentBox.Boxes.Count - 1 && _parentBox.ActualMarginBottom < 0.1)
+            if (ParentBox != null && ParentBox.Boxes.IndexOf(this) == ParentBox.Boxes.Count - 1 && ParentBox.ActualMarginBottom < 0.1)
             {
-                var lastChildBottomMargin = _boxes[_boxes.Count - 1].ActualMarginBottom;
+                var lastChildBottomMargin = Boxes[Boxes.Count - 1].ActualMarginBottom;
                 margin = Height == "auto" ? Math.Max(ActualMarginBottom, lastChildBottomMargin) : lastChildBottomMargin;
             }
-            return Math.Max(ActualBottom, _boxes[_boxes.Count - 1].ActualBottom + margin + ActualPaddingBottom + ActualBorderBottomWidth);
+            return Math.Max(ActualBottom, Boxes[Boxes.Count - 1].ActualBottom + margin + ActualPaddingBottom + ActualBorderBottomWidth);
         }
 
         /// <summary>
@@ -1222,7 +1160,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
                 RPoint offset = RPoint.Empty;
                 if (!IsFixed)
                 {
-                    offset = HtmlContainer.ScrollOffset;
+                    offset = HtmlContainer!.ScrollOffset;
                 }
 
                 for (int i = 0; i < rects.Length; i++)
@@ -1300,7 +1238,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
         {
             if (rect.Width > 0 && rect.Height > 0)
             {
-                RBrush brush = null;
+                RBrush? brush = null;
 
                 if (BackgroundGradient != CssConstants.None)
                 {
@@ -1317,13 +1255,13 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
                     // if (isLast)
                     //  rectangle.Width -= ActualWordSpacing + CssUtils.GetWordEndWhitespace(ActualFont);
 
-                    RGraphicsPath roundrect = null;
+                    RGraphicsPath? roundrect = null;
                     if (IsRounded)
                     {
                         roundrect = RenderUtils.GetRoundRect(g, rect, ActualCornerNw, ActualCornerNe, ActualCornerSe, ActualCornerSw);
                     }
 
-                    Object prevMode = null;
+                    object? prevMode = null;
                     if (HtmlContainer != null && !HtmlContainer.AvoidGeometryAntialias && IsRounded)
                     {
                         prevMode = g.SetAntiAliasSmoothingMode();
@@ -1340,12 +1278,11 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
 
                     g.ReturnPreviousSmoothingMode(prevMode);
 
-                    if (roundrect != null)
-                        roundrect.Dispose();
+                    roundrect?.Dispose();
                     brush.Dispose();
                 }
 
-                if (_imageLoadHandler != null && _imageLoadHandler.Image != null && isFirst)
+                if (_imageLoadHandler?.Image != null && isFirst)
                 {
                     BackgroundImageDrawHandler.DrawBackgroundImage(g, this, _imageLoadHandler, rect);
                 }
@@ -1385,7 +1322,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
 
                                 g.DrawRectangle(GetSelectionBackBrush(g, false), rect.X, rect.Y, rect.Width, rect.Height);
 
-                                if (HtmlContainer.SelectionForeColor != RColor.Empty && (word.SelectedStartOffset > 0 || word.SelectedEndIndexOffset > -1))
+                                if (HtmlContainer!.SelectionForeColor != RColor.Empty && (word.SelectedStartOffset > 0 || word.SelectedEndIndexOffset > -1))
                                 {
                                     g.PushClipExclude(rect);
                                     g.DrawString(word.Text, ActualFont, ActualColor, wordPoint, new RSize(word.Width, word.Height), isRtl);
@@ -1471,7 +1408,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
         /// </summary>
         internal void RectanglesReset()
         {
-            _rectangles.Clear();
+            Rectangles.Clear();
         }
 
         /// <summary>
@@ -1480,10 +1417,10 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
         /// <param name="image">the image loaded or null if failed</param>
         /// <param name="rectangle">the source rectangle to draw in the image (empty - draw everything)</param>
         /// <param name="async">is the callback was called async to load image call</param>
-        private void OnImageLoadComplete(RImage image, RRect rectangle, bool async)
+        private void OnImageLoadComplete(RImage? image, RRect rectangle, bool async)
         {
             if (image != null && async)
-                HtmlContainer.RequestRefresh(false);
+                HtmlContainer?.RequestRefresh(false);
         }
 
         /// <summary>
@@ -1491,7 +1428,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
         /// </summary>
         protected RColor GetSelectionForeBrush()
         {
-            return HtmlContainer.SelectionForeColor != RColor.Empty ? HtmlContainer.SelectionForeColor : ActualColor;
+            return HtmlContainer!.SelectionForeColor != RColor.Empty ? HtmlContainer.SelectionForeColor : ActualColor;
         }
 
         /// <summary>
@@ -1501,7 +1438,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
         /// <param name="forceAlpha">used for images so they will have alpha effect</param>
         protected RBrush GetSelectionBackBrush(RGraphics g, bool forceAlpha)
         {
-            var backColor = HtmlContainer.SelectionBackColor;
+            var backColor = HtmlContainer!.SelectionBackColor;
             if (backColor != RColor.Empty)
             {
                 if (forceAlpha && backColor.A > 180)
@@ -1517,18 +1454,18 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
 
         protected override RFont GetCachedFont(string fontFamily, double fsize, RFontStyle st)
         {
-            return HtmlContainer.Adapter.GetFont(fontFamily, fsize, st);
+            return HtmlContainer!.Adapter.GetFont(fontFamily, fsize, st);
         }
 
         protected override RColor GetActualColor(string colorStr)
         {
-            return HtmlContainer.CssParser.ParseColor(colorStr);
+            return HtmlContainer!.CssParser.ParseColor(colorStr);
         }
 
-        protected override RPoint GetActualLocation(string X, string Y)
+        protected override RPoint GetActualLocation(string x, string y)
         {
-            var left = CssValueParser.ParseLength(X, this.HtmlContainer.PageSize.Width, this, null);
-            var top = CssValueParser.ParseLength(Y, this.HtmlContainer.PageSize.Height, this, null);
+            var left = CssValueParser.ParseLength(x, this.HtmlContainer!.PageSize.Width, this, null);
+            var top = CssValueParser.ParseLength(y, this.HtmlContainer.PageSize.Height, this, null);
             return new RPoint(left, top);
         }
 

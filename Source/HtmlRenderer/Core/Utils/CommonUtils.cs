@@ -16,9 +16,9 @@ using System.Globalization;
 using System.IO;
 using System.Net;
 using System.Text;
-using TheArtOfDev.HtmlRenderer.Adapters.Entities;
+using Westermo.HtmlRenderer.Adapters.Entities;
 
-namespace TheArtOfDev.HtmlRenderer.Core.Utils
+namespace Westermo.HtmlRenderer.Core.Utils
 {
     internal delegate void ActionInt<in T>(T obj);
 
@@ -73,7 +73,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Utils
             "あ", "ぃ", "ぅ", "ぇ", "ぉ", "か", "き", "く", "け", "こ", "さ", "し", "す", "せ", "そ", "た", "ち", "つ", "て", "と", "な", "に", "ぬ", "ね", "の", "は", "ひ", "ふ", "へ", "ほ", "ま", "み", "む", "め", "も", "ゃ", "ゅ", "ょ", "ら", "り", "る", "れ", "ろ", "ゎ", "ゐ", "ゑ", "を", "ん"
         };
 
-        private static readonly string[] _satakanaDigitsTable = new[]
+        private static readonly string[] _katakanaDigitsTable = new[]
         {
             "ア", "イ", "ウ", "エ", "オ", "カ", "キ", "ク", "ケ", "コ", "サ", "シ", "ス", "セ", "ソ", "タ", "チ", "ツ", "テ", "ト", "ナ", "ニ", "ヌ", "ネ", "ノ", "ハ", "ヒ", "フ", "ヘ", "ホ", "マ", "ミ", "ム", "メ", "モ", "ヤ", "ユ", "ヨ", "ラ", "リ", "ル", "レ", "ロ", "ワ", "ヰ", "ヱ", "ヲ", "ン"
         };
@@ -81,7 +81,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Utils
         /// <summary>
         /// the temp path to use for local files
         /// </summary>
-        public static String _tempPath;
+        public static string? _tempPath;
 
         #endregion
 
@@ -141,7 +141,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Utils
         /// </summary>
         /// <param name="path">the path to get uri for</param>
         /// <returns>uri or null if not valid</returns>
-        public static Uri TryGetUri(string path)
+        public static Uri? TryGetUri(string path)
         {
             try
             {
@@ -151,7 +151,9 @@ namespace TheArtOfDev.HtmlRenderer.Core.Utils
                 }
             }
             catch
-            { }
+            {
+                // ignored
+            }
 
             return null;
         }
@@ -164,7 +166,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Utils
         /// <param name="dic">the dictionary</param>
         /// <param name="defaultValue">optional: the default value to return of no elements found in dictionary </param>
         /// <returns>first element or default value</returns>
-        public static TValue GetFirstValueOrDefault<TKey, TValue>(IDictionary<TKey, TValue> dic, TValue defaultValue = default(TValue))
+        public static TValue? GetFirstValueOrDefault<TKey, TValue>(IDictionary<TKey, TValue>? dic, TValue? defaultValue = default(TValue))
         {
             if (dic != null)
             {
@@ -179,14 +181,16 @@ namespace TheArtOfDev.HtmlRenderer.Core.Utils
         /// </summary>
         /// <param name="path">the path to get file info for</param>
         /// <returns>file info or null if not valid</returns>
-        public static FileInfo TryGetFileInfo(string path)
+        public static FileInfo? TryGetFileInfo(string path)
         {
             try
             {
                 return new FileInfo(path);
             }
             catch
-            { }
+            {
+                // ignored
+            }
 
             return null;
         }
@@ -196,7 +200,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Utils
         /// </summary>
         /// <param name="client">the web client to get the response content type from</param>
         /// <returns>response content type or null</returns>
-        public static string GetResponseContentType(WebClient client)
+        public static string? GetResponseContentType(WebClient client)
         {
             foreach (string header in client.ResponseHeaders)
             {
@@ -211,7 +215,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Utils
         /// </summary>
         /// <param name="imageUri">The online image uri.</param>
         /// <returns>The path of the file on the disk.</returns>
-        public static FileInfo GetLocalfileName(Uri imageUri)
+        public static FileInfo? GetLocalfileName(Uri imageUri)
         {
             StringBuilder fileNameBuilder = new StringBuilder();
             string absoluteUri = imageUri.AbsoluteUri;
@@ -375,7 +379,7 @@ namespace TheArtOfDev.HtmlRenderer.Core.Utils
             }
             else if (style.Equals(CssConstants.Katakana, StringComparison.InvariantCultureIgnoreCase) || style.Equals(CssConstants.KatakanaIroha, StringComparison.InvariantCultureIgnoreCase))
             {
-                return ConvertToSpecificNumbers2(number, _satakanaDigitsTable);
+                return ConvertToSpecificNumbers2(number, _katakanaDigitsTable);
             }
             else
             {

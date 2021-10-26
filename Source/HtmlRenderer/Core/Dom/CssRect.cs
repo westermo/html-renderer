@@ -10,11 +10,11 @@
 // - Sun Tsu,
 // "The Art of War"
 
-using TheArtOfDev.HtmlRenderer.Adapters;
-using TheArtOfDev.HtmlRenderer.Adapters.Entities;
-using TheArtOfDev.HtmlRenderer.Core.Handlers;
+using Westermo.HtmlRenderer.Adapters;
+using Westermo.HtmlRenderer.Adapters.Entities;
+using Westermo.HtmlRenderer.Core.Handlers;
 
-namespace TheArtOfDev.HtmlRenderer.Core.Dom
+namespace Westermo.HtmlRenderer.Core.Dom
 {
     /// <summary>
     /// Represents a word inside an inline box
@@ -30,19 +30,9 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
         #region Fields and Consts
 
         /// <summary>
-        /// the CSS box owner of the word
-        /// </summary>
-        private readonly CssBox _ownerBox;
-
-        /// <summary>
         /// Rectangle
         /// </summary>
         private RRect _rect;
-
-        /// <summary>
-        /// If the word is selected this points to the selection handler for more data
-        /// </summary>
-        private SelectionHandler _selection;
 
         #endregion
 
@@ -51,26 +41,23 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
         /// Init.
         /// </summary>
         /// <param name="owner">the CSS box owner of the word</param>
-        protected CssRect(CssBox owner)
+        protected CssRect(CssBox? owner)
         {
-            _ownerBox = owner;
+            OwnerBox = owner;
         }
 
         /// <summary>
         /// Gets the Box where this word belongs.
         /// </summary>
-        public CssBox OwnerBox
-        {
-            get { return _ownerBox; }
-        }
+        public CssBox? OwnerBox { get; }
 
         /// <summary>
         /// Gets or sets the bounds of the rectangle
         /// </summary>
         public RRect Rectangle
         {
-            get { return _rect; }
-            set { _rect = value; }
+            get => _rect;
+            set => _rect = value;
         }
 
         /// <summary>
@@ -78,8 +65,8 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
         /// </summary>
         public double Left
         {
-            get { return _rect.X; }
-            set { _rect.X = value; }
+            get => _rect.X;
+            set => _rect.X = value;
         }
 
         /// <summary>
@@ -87,8 +74,8 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
         /// </summary>
         public double Top
         {
-            get { return _rect.Y; }
-            set { _rect.Y = value; }
+            get => _rect.Y;
+            set => _rect.Y = value;
         }
 
         /// <summary>
@@ -96,33 +83,27 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
         /// </summary>
         public double Width
         {
-            get { return _rect.Width; }
-            set { _rect.Width = value; }
+            get => _rect.Width;
+            set => _rect.Width = value;
         }
 
         /// <summary>
         /// Get the full width of the word including the spacing.
         /// </summary>
-        public double FullWidth
-        {
-            get { return _rect.Width + ActualWordSpacing; }
-        }
+        public double FullWidth => _rect.Width + ActualWordSpacing;
 
         /// <summary>
         /// Gets the actual width of whitespace between words.
         /// </summary>
-        public double ActualWordSpacing
-        {
-            get { return (OwnerBox != null ? (HasSpaceAfter ? OwnerBox.ActualWordSpacing : 0) + (IsImage ? OwnerBox.ActualWordSpacing : 0) : 0); }
-        }
+        public double ActualWordSpacing => (OwnerBox != null ? (HasSpaceAfter ? OwnerBox.ActualWordSpacing : 0) + (IsImage ? OwnerBox.ActualWordSpacing : 0) : 0);
 
         /// <summary>
         /// Height of the rectangle
         /// </summary>
         public double Height
         {
-            get { return _rect.Height; }
-            set { _rect.Height = value; }
+            get => _rect.Height;
+            set => _rect.Height = value;
         }
 
         /// <summary>
@@ -130,8 +111,8 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
         /// </summary>
         public double Right
         {
-            get { return Rectangle.Right; }
-            set { Width = value - Left; }
+            get => Rectangle.Right;
+            set => Width = value - Left;
         }
 
         /// <summary>
@@ -139,41 +120,31 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
         /// </summary>
         public double Bottom
         {
-            get { return Rectangle.Bottom; }
-            set { Height = value - Top; }
+            get => Rectangle.Bottom;
+            set => Height = value - Top;
         }
 
         /// <summary>
         /// If the word is selected this points to the selection handler for more data
         /// </summary>
-        public SelectionHandler Selection
-        {
-            get { return _selection; }
-            set { _selection = value; }
-        }
+        public SelectionHandler? Selection { get; set; }
 
         /// <summary>
         /// was there a whitespace before the word chars (before trim)
         /// </summary>
-        public virtual bool HasSpaceBefore
-        {
-            get { return false; }
-        }
+        public virtual bool HasSpaceBefore => false;
 
         /// <summary>
         /// was there a whitespace after the word chars (before trim)
         /// </summary>
-        public virtual bool HasSpaceAfter
-        {
-            get { return false; }
-        }
+        public virtual bool HasSpaceAfter => false;
 
         /// <summary>
         /// Gets the image this words represents (if one exists)
         /// </summary>
-        public virtual RImage Image
+        public virtual RImage? Image
         {
-            get { return null; }
+            get => null;
             // ReSharper disable ValueParameterNotUsed
             set { }
             // ReSharper restore ValueParameterNotUsed
@@ -182,83 +153,53 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
         /// <summary>
         /// Gets if the word represents an image.
         /// </summary>
-        public virtual bool IsImage
-        {
-            get { return false; }
-        }
+        public virtual bool IsImage => false;
 
         /// <summary>
         /// Gets a bool indicating if this word is composed only by spaces.
         /// Spaces include tabs and line breaks
         /// </summary>
-        public virtual bool IsSpaces
-        {
-            get { return true; }
-        }
+        public virtual bool IsSpaces => true;
 
         /// <summary>
         /// Gets if the word is composed by only a line break
         /// </summary>
-        public virtual bool IsLineBreak
-        {
-            get { return false; }
-        }
+        public virtual bool IsLineBreak => false;
 
         /// <summary>
         /// Gets the text of the word
         /// </summary>
-        public virtual string Text
-        {
-            get { return null; }
-        }
+        public virtual string Text => "";
 
         /// <summary>
         /// is the word is currently selected
         /// </summary>
-        public bool Selected
-        {
-            get { return _selection != null; }
-        }
+        public bool Selected => Selection != null;
 
         /// <summary>
         /// the selection start index if the word is partially selected (-1 if not selected or fully selected)
         /// </summary>
-        public int SelectedStartIndex
-        {
-            get { return _selection != null ? _selection.GetSelectingStartIndex(this) : -1; }
-        }
+        public int SelectedStartIndex => Selection?.GetSelectingStartIndex(this) ?? -1;
 
         /// <summary>
         /// the selection end index if the word is partially selected (-1 if not selected or fully selected)
         /// </summary>
-        public int SelectedEndIndexOffset
-        {
-            get { return _selection != null ? _selection.GetSelectedEndIndexOffset(this) : -1; }
-        }
+        public int SelectedEndIndexOffset => Selection?.GetSelectedEndIndexOffset(this) ?? -1;
 
         /// <summary>
         /// the selection start offset if the word is partially selected (-1 if not selected or fully selected)
         /// </summary>
-        public double SelectedStartOffset
-        {
-            get { return _selection != null ? _selection.GetSelectedStartOffset(this) : -1; }
-        }
+        public double SelectedStartOffset => Selection?.GetSelectedStartOffset(this) ?? -1;
 
         /// <summary>
         /// the selection end offset if the word is partially selected (-1 if not selected or fully selected)
         /// </summary>
-        public double SelectedEndOffset
-        {
-            get { return _selection != null ? _selection.GetSelectedEndOffset(this) : -1; }
-        }
+        public double SelectedEndOffset => Selection?.GetSelectedEndOffset(this) ?? -1;
 
         /// <summary>
         /// Gets or sets an offset to be considered in measurements
         /// </summary>
-        internal double LeftGlyphPadding
-        {
-            get { return OwnerBox != null ? OwnerBox.ActualFont.LeftPadding : 0; }
-        }
+        internal double LeftGlyphPadding => OwnerBox != null ? OwnerBox.ActualFont.LeftPadding : 0;
 
         /// <summary>
         /// Represents this word for debugging purposes
@@ -266,14 +207,15 @@ namespace TheArtOfDev.HtmlRenderer.Core.Dom
         /// <returns></returns>
         public override string ToString()
         {
-            return string.Format("{0} ({1} char{2})", Text.Replace(' ', '-').Replace("\n", "\\n"), Text.Length, Text.Length != 1 ? "s" : string.Empty);
+            return
+                $"{Text.Replace(' ', '-').Replace("\n", "\\n")} ({Text.Length} char{(Text.Length != 1 ? "s" : string.Empty)})";
         }
 
         public bool BreakPage()
         {
-            var container = this.OwnerBox.HtmlContainer;
+            var container = this.OwnerBox?.HtmlContainer;
 
-            if (this.Height >= container.PageSize.Height)
+            if (container == null || this.Height >= container.PageSize.Height)
                 return false;
 
             var remTop = (this.Top - container.MarginTop) % container.PageSize.Height;

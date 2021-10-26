@@ -11,9 +11,9 @@
 // "The Art of War"
 
 using System.Windows.Media;
-using TheArtOfDev.HtmlRenderer.Adapters;
+using Westermo.HtmlRenderer.Adapters;
 
-namespace TheArtOfDev.HtmlRenderer.WPF.Adapters
+namespace Westermo.HtmlRenderer.WPF.Adapters
 {
     /// <summary>
     /// Adapter for WPF brushes.

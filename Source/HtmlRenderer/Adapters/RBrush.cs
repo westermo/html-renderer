@@ -12,7 +12,7 @@
 
 using System;
 
-namespace TheArtOfDev.HtmlRenderer.Adapters
+namespace Westermo.HtmlRenderer.Adapters
 {
     /// <summary>
     /// Adapter for platform specific brush objects - used to fill graphics (rectangles, polygons and paths).<br/>
