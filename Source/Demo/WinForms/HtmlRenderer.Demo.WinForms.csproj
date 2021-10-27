@@ -1,4 +1,34 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <LangVersion>default</LangVersion>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <AssemblyVersion>1.6.0</AssemblyVersion>
+    <FileVersion>1.6.0</FileVersion>
+    <UseWpf>true</UseWpf>
+    <Product>HTML Renderer Winforms Demo</Product>
+    <Company>Westermo</Company>
+    <Copyright>Copyright © Westermo Network Technologies AB 2021, original authors of https://github.com/ArthurHub/HTML-Renderer</Copyright>
+    <InformationalVersion>1.6.0</InformationalVersion>
+    <AssemblyName>Westermo.HtmlRenderer.Demo.WinForms</AssemblyName>
+    <RootNamespace>Westermo.HtmlRenderer.Demo.WinForms</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\HtmlRenderer.WinForms\HtmlRenderer.WinForms.csproj" />
+    <ProjectReference Include="..\..\HtmlRenderer.PdfSharp\HtmlRenderer.PdfSharp.csproj" />
+    <ProjectReference Include="..\Common\HtmlRenderer.Demo.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="html.ico" />
+  </ItemGroup>
+
+</Project>
+<!--
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -188,11 +218,5 @@
       </EmbeddedResource>
     </ItemGroup>
   </Target>
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>
+-->
