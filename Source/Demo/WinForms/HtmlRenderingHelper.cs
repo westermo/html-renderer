@@ -16,10 +16,10 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Threading;
-using TheArtOfDev.HtmlRenderer.Core.Entities;
-using TheArtOfDev.HtmlRenderer.Demo.Common;
+using Westermo.HtmlRenderer.Core.Entities;
+using Westermo.HtmlRenderer.Demo.Common;
 
-namespace TheArtOfDev.HtmlRenderer.Demo.WinForms
+namespace Westermo.HtmlRenderer.Demo.WinForms
 {
     internal static class HtmlRenderingHelper
     {

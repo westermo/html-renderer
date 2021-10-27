@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using TheArtOfDev.HtmlRenderer.Core.Utils;
+using Westermo.HtmlRenderer.Core.Utils;
 
-namespace TheArtOfDev.HtmlRenderer.Core.Dom
+namespace Westermo.HtmlRenderer.Core.Dom
 {
     /// <summary>
     /// Used to make space on vertical cell combination

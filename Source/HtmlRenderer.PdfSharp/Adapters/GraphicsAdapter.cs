@@ -12,12 +12,12 @@
 
 using PdfSharp.Drawing;
 using System;
-using TheArtOfDev.HtmlRenderer.Adapters;
-using TheArtOfDev.HtmlRenderer.Adapters.Entities;
-using TheArtOfDev.HtmlRenderer.Core.Utils;
-using TheArtOfDev.HtmlRenderer.PdfSharp.Utilities;
+using Westermo.HtmlRenderer.Adapters;
+using Westermo.HtmlRenderer.Adapters.Entities;
+using Westermo.HtmlRenderer.Core.Utils;
+using Westermo.HtmlRenderer.PdfSharp.Utilities;
 
-namespace TheArtOfDev.HtmlRenderer.PdfSharp.Adapters
+namespace Westermo.HtmlRenderer.PdfSharp.Adapters
 {
     /// <summary>
     /// Adapter for WinForms Graphics for core.

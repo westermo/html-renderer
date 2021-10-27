@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TheArtOfDev.HtmlRenderer.Demo.Common.Properties {
+namespace Westermo.HtmlRenderer.Demo.Common.Properties {
     using System;
     
     

@@ -15,12 +15,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using System.Threading;
-using TheArtOfDev.HtmlRenderer.Adapters;
-using TheArtOfDev.HtmlRenderer.Adapters.Entities;
-using TheArtOfDev.HtmlRenderer.Core.Entities;
-using TheArtOfDev.HtmlRenderer.Core.Utils;
+using Westermo.HtmlRenderer.Adapters;
+using Westermo.HtmlRenderer.Adapters.Entities;
+using Westermo.HtmlRenderer.Core.Entities;
+using Westermo.HtmlRenderer.Core.Utils;
 
-namespace TheArtOfDev.HtmlRenderer.Core.Handlers
+namespace Westermo.HtmlRenderer.Core.Handlers
 {
     /// <summary>
     /// Handler for all loading image logic.<br/>

@@ -16,12 +16,12 @@ using System.Drawing;
 using System.Drawing.Text;
 using System.IO;
 using System.Windows.Forms;
-using TheArtOfDev.HtmlRenderer.Demo.Common;
-using TheArtOfDev.HtmlRenderer.PdfSharp;
-using TheArtOfDev.HtmlRenderer.WinForms;
+using Westermo.HtmlRenderer.Demo.Common;
+using Westermo.HtmlRenderer.PdfSharp;
+using Westermo.HtmlRenderer.WinForms;
 using PdfSharp;
 
-namespace TheArtOfDev.HtmlRenderer.Demo.WinForms
+namespace Westermo.HtmlRenderer.Demo.WinForms
 {
     public partial class DemoForm : Form
     {

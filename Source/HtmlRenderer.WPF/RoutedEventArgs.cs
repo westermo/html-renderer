@@ -11,9 +11,9 @@
 // "The Art of War"
 
 using System.Windows;
-using TheArtOfDev.HtmlRenderer.Core.Utils;
+using Westermo.HtmlRenderer.Core.Utils;
 
-namespace TheArtOfDev.HtmlRenderer.WPF
+namespace Westermo.HtmlRenderer.WPF
 {
     /// <summary>
     /// Handler for HTML renderer routed events.

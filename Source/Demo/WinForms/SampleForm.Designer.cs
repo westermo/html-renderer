@@ -1,6 +1,6 @@
-using TheArtOfDev.HtmlRenderer.WinForms;
+using Westermo.HtmlRenderer.WinForms;
 
-namespace TheArtOfDev.HtmlRenderer.Demo.WinForms
+namespace Westermo.HtmlRenderer.Demo.WinForms
 {
     partial class SampleForm
     {

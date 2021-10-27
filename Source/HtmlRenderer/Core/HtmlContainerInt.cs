@@ -13,15 +13,15 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using TheArtOfDev.HtmlRenderer.Adapters;
-using TheArtOfDev.HtmlRenderer.Adapters.Entities;
-using TheArtOfDev.HtmlRenderer.Core.Dom;
-using TheArtOfDev.HtmlRenderer.Core.Entities;
-using TheArtOfDev.HtmlRenderer.Core.Handlers;
-using TheArtOfDev.HtmlRenderer.Core.Parse;
-using TheArtOfDev.HtmlRenderer.Core.Utils;
+using Westermo.HtmlRenderer.Adapters;
+using Westermo.HtmlRenderer.Adapters.Entities;
+using Westermo.HtmlRenderer.Core.Dom;
+using Westermo.HtmlRenderer.Core.Entities;
+using Westermo.HtmlRenderer.Core.Handlers;
+using Westermo.HtmlRenderer.Core.Parse;
+using Westermo.HtmlRenderer.Core.Utils;
 
-namespace TheArtOfDev.HtmlRenderer.Core
+namespace Westermo.HtmlRenderer.Core
 {
     /// <summary>
     /// Low level handling of Html Renderer logic.<br/>

@@ -15,7 +15,7 @@ using System;
 using System.Drawing;
 using System.Runtime.InteropServices;
 
-namespace TheArtOfDev.HtmlRenderer.WinForms.Utilities
+namespace Westermo.HtmlRenderer.WinForms.Utilities
 {
     /// <summary>
     /// Utility for Win32 API.

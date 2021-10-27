@@ -13,7 +13,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace TheArtOfDev.HtmlRenderer.Core.Utils
+namespace Westermo.HtmlRenderer.Core.Utils
 {
     internal static class HtmlUtils
     {

@@ -13,12 +13,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using TheArtOfDev.HtmlRenderer.Adapters.Entities;
-using TheArtOfDev.HtmlRenderer.Core.Dom;
-using TheArtOfDev.HtmlRenderer.Core.Entities;
-using TheArtOfDev.HtmlRenderer.Core.Parse;
+using Westermo.HtmlRenderer.Adapters.Entities;
+using Westermo.HtmlRenderer.Core.Dom;
+using Westermo.HtmlRenderer.Core.Entities;
+using Westermo.HtmlRenderer.Core.Parse;
 
-namespace TheArtOfDev.HtmlRenderer.Core.Utils
+namespace Westermo.HtmlRenderer.Core.Utils
 {
     /// <summary>
     /// Utility class for traversing DOM structure and execution stuff on it.

@@ -13,9 +13,9 @@
 using System;
 using System.Globalization;
 using System.Windows.Data;
-using TheArtOfDev.HtmlRenderer.Demo.Common;
+using Westermo.HtmlRenderer.Demo.Common;
 
-namespace TheArtOfDev.HtmlRenderer.Demo.WPF
+namespace Westermo.HtmlRenderer.Demo.WPF
 {
     public class ToolStripImageConverter : IValueConverter
     {

@@ -15,11 +15,11 @@ using PdfSharp.Pdf;
 using System.Drawing;
 using System.Drawing.Text;
 using System.IO;
-using TheArtOfDev.HtmlRenderer.Adapters;
-using TheArtOfDev.HtmlRenderer.Adapters.Entities;
-using TheArtOfDev.HtmlRenderer.PdfSharp.Utilities;
+using Westermo.HtmlRenderer.Adapters;
+using Westermo.HtmlRenderer.Adapters.Entities;
+using Westermo.HtmlRenderer.PdfSharp.Utilities;
 
-namespace TheArtOfDev.HtmlRenderer.PdfSharp.Adapters
+namespace Westermo.HtmlRenderer.PdfSharp.Adapters
 {
     /// <summary>
     /// Adapter for PdfSharp library platform.

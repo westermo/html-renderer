@@ -16,7 +16,7 @@ using System.IO;
 using System.Reflection;
 using System.Text;
 
-namespace TheArtOfDev.HtmlRenderer.Demo.Common
+namespace Westermo.HtmlRenderer.Demo.Common
 {
     public static class SamplesLoader
     {
