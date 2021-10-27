@@ -21,7 +21,7 @@ namespace Westermo.HtmlRenderer.Demo.WPF
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            var imageStream = typeof(Resources).Assembly.GetManifestResourceStream("TheArtOfDev.HtmlRenderer.Demo.Common.Resources." + parameter + ".png");
+            var imageStream = typeof(Resources).Assembly.GetManifestResourceStream("Westermo.HtmlRenderer.Demo.Common.Resources." + parameter + ".png");
             return HtmlRenderingHelper.ImageFromStream(imageStream);
         }
 
