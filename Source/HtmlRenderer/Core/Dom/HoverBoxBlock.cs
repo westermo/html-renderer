@@ -10,9 +10,9 @@
 // - Sun Tsu,
 // "The Art of War"
 
-using Westermo.HtmlRenderer.Core.Entities;
+using TheArtOfDev.HtmlRenderer.Core.Entities;
 
-namespace Westermo.HtmlRenderer.Core.Dom
+namespace TheArtOfDev.HtmlRenderer.Core.Dom
 {
     /// <summary>
     /// CSS boxes that have ":hover" selector on them.

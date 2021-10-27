@@ -11,12 +11,12 @@
 // "The Art of War"
 
 using System;
-using Westermo.HtmlRenderer.Adapters;
-using Westermo.HtmlRenderer.Adapters.Entities;
-using Westermo.HtmlRenderer.Core.Handlers;
-using Westermo.HtmlRenderer.Core.Utils;
+using TheArtOfDev.HtmlRenderer.Adapters;
+using TheArtOfDev.HtmlRenderer.Adapters.Entities;
+using TheArtOfDev.HtmlRenderer.Core.Handlers;
+using TheArtOfDev.HtmlRenderer.Core.Utils;
 
-namespace Westermo.HtmlRenderer.Core.Dom
+namespace TheArtOfDev.HtmlRenderer.Core.Dom
 {
     /// <summary>
     /// CSS box for image element.
@@ -48,7 +48,7 @@ namespace Westermo.HtmlRenderer.Core.Dom
         /// </summary>
         /// <param name="parent">the parent box of this box</param>
         /// <param name="tag">the html tag data of this box</param>
-        public CssBoxImage(CssBox? parent, HtmlTag tag)
+        public CssBoxImage(CssBox parent, HtmlTag tag)
             : base(parent, tag)
         {
             _imageWord = new CssRectImage(this);

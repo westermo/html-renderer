@@ -10,11 +10,11 @@
 // - Sun Tsu,
 // "The Art of War"
 
-using Westermo.HtmlRenderer.Adapters;
-using Westermo.HtmlRenderer.Adapters.Entities;
-using Westermo.HtmlRenderer.Core.Dom;
+using TheArtOfDev.HtmlRenderer.Adapters;
+using TheArtOfDev.HtmlRenderer.Adapters.Entities;
+using TheArtOfDev.HtmlRenderer.Core.Dom;
 
-namespace Westermo.HtmlRenderer.Core.Utils
+namespace TheArtOfDev.HtmlRenderer.Core.Utils
 {
     /// <summary>
     /// Provides some drawing functionality
@@ -52,7 +52,7 @@ namespace Westermo.HtmlRenderer.Core.Utils
                     rect.Width += 2;
 
                     if (!box.IsFixed)
-                        rect.Offset(box.HtmlContainer!.ScrollOffset);
+                        rect.Offset(box.HtmlContainer.ScrollOffset);
 
                     rect.Intersect(prevClip);
                     g.PushClip(rect);
@@ -78,8 +78,7 @@ namespace Westermo.HtmlRenderer.Core.Utils
         {
             g.DrawRectangle(g.GetPen(RColor.LightGray), r.Left + 3, r.Top + 3, 13, 14);
             var image = htmlContainer.Adapter.GetLoadingImage();
-            if (image != null)
-                g.DrawImage(image, new RRect(r.Left + 4, r.Top + 4, image.Width, image.Height));
+            g.DrawImage(image, new RRect(r.Left + 4, r.Top + 4, image.Width, image.Height));
         }
 
         /// <summary>
@@ -92,8 +91,7 @@ namespace Westermo.HtmlRenderer.Core.Utils
         {
             g.DrawRectangle(g.GetPen(RColor.LightGray), r.Left + 2, r.Top + 2, 15, 15);
             var image = htmlContainer.Adapter.GetLoadingFailedImage();
-            if (image != null)
-                g.DrawImage(image, new RRect(r.Left + 3, r.Top + 3, image.Width, image.Height));
+            g.DrawImage(image, new RRect(r.Left + 3, r.Top + 3, image.Width, image.Height));
         }
 
         /// <summary>

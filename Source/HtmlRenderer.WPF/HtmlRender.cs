@@ -14,13 +14,13 @@ using System;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Westermo.HtmlRenderer.Core;
-using Westermo.HtmlRenderer.Core.Entities;
-using Westermo.HtmlRenderer.Core.Utils;
-using Westermo.HtmlRenderer.WPF.Adapters;
-using Westermo.HtmlRenderer.WPF.Utilities;
+using TheArtOfDev.HtmlRenderer.Core;
+using TheArtOfDev.HtmlRenderer.Core.Entities;
+using TheArtOfDev.HtmlRenderer.Core.Utils;
+using TheArtOfDev.HtmlRenderer.WPF.Adapters;
+using TheArtOfDev.HtmlRenderer.WPF.Utilities;
 
-namespace Westermo.HtmlRenderer.WPF
+namespace TheArtOfDev.HtmlRenderer.WPF
 {
     /// <summary>
     /// Standalone static class for simple and direct HTML rendering.<br/>

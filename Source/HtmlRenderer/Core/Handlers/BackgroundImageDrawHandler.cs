@@ -11,11 +11,11 @@
 // "The Art of War"
 
 using System;
-using Westermo.HtmlRenderer.Adapters;
-using Westermo.HtmlRenderer.Adapters.Entities;
-using Westermo.HtmlRenderer.Core.Dom;
+using TheArtOfDev.HtmlRenderer.Adapters;
+using TheArtOfDev.HtmlRenderer.Adapters.Entities;
+using TheArtOfDev.HtmlRenderer.Core.Dom;
 
-namespace Westermo.HtmlRenderer.Core.Handlers
+namespace TheArtOfDev.HtmlRenderer.Core.Handlers
 {
     /// <summary>
     /// Contains all the paint code to paint different background images.

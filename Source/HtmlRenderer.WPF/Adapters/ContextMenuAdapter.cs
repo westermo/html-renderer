@@ -13,12 +13,12 @@
 using System;
 using System.Windows;
 using System.Windows.Controls;
-using Westermo.HtmlRenderer.Adapters;
-using Westermo.HtmlRenderer.Adapters.Entities;
-using Westermo.HtmlRenderer.Core.Utils;
-using Westermo.HtmlRenderer.WPF.Utilities;
+using TheArtOfDev.HtmlRenderer.Adapters;
+using TheArtOfDev.HtmlRenderer.Adapters.Entities;
+using TheArtOfDev.HtmlRenderer.Core.Utils;
+using TheArtOfDev.HtmlRenderer.WPF.Utilities;
 
-namespace Westermo.HtmlRenderer.WPF.Adapters
+namespace TheArtOfDev.HtmlRenderer.WPF.Adapters
 {
     /// <summary>
     /// Adapter for WPF context menu for core.

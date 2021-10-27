@@ -13,7 +13,7 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
-namespace Westermo.HtmlRenderer.Core.Parse
+namespace HtmlRenderer.Parse
 {
     /// <summary>
     /// Collection of regular expressions used when parsing
@@ -128,7 +128,7 @@ namespace Westermo.HtmlRenderer.Core.Parse
         /// <param name="stylesheet">the stylesheet data to retrieve the rule from</param>
         /// <param name="startIdx">the index to start the search for the rule, on return will be the value of the end of the found rule</param>
         /// <returns>the found at rule or null if not exists</returns>
-        public static string? GetCssAtRules(string stylesheet, ref int startIdx)
+        public static string GetCssAtRules(string stylesheet, ref int startIdx)
         {
             startIdx = stylesheet.IndexOf('@', startIdx);
             if (startIdx > -1)
@@ -178,9 +178,10 @@ namespace Westermo.HtmlRenderer.Core.Parse
         /// <param name="regex"></param>
         /// <param name="source"></param>
         /// <returns></returns>
-        public static string? Search(string regex, string source)
+        public static string Search(string regex, string source)
         {
-            return Search(regex, source, out _);
+            int position;
+            return Search(regex, source, out position);
         }
 
         /// <summary>
@@ -190,7 +191,7 @@ namespace Westermo.HtmlRenderer.Core.Parse
         /// <param name="source"></param>
         /// <param name="position"> </param>
         /// <returns></returns>
-        public static string? Search(string regex, string source, out int position)
+        public static string Search(string regex, string source, out int position)
         {
             MatchCollection matches = Match(regex, source);
 

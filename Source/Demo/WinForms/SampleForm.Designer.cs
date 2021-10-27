@@ -1,6 +1,6 @@
-using Westermo.HtmlRenderer.WinForms;
+using TheArtOfDev.HtmlRenderer.WinForms;
 
-namespace Westermo.HtmlRenderer.Demo.WinForms
+namespace TheArtOfDev.HtmlRenderer.Demo.WinForms
 {
     partial class SampleForm
     {
@@ -30,13 +30,13 @@ namespace Westermo.HtmlRenderer.Demo.WinForms
         /// </summary>
         private void InitializeComponent()
         {
-            this._htmlToolTip = new Westermo.HtmlRenderer.WinForms.HtmlToolTip();
+            this._htmlToolTip = new TheArtOfDev.HtmlRenderer.WinForms.HtmlToolTip();
             this._changeTooltipButton = new System.Windows.Forms.Button();
             this._splitContainer = new System.Windows.Forms.SplitContainer();
-            this._htmlPanel = new Westermo.HtmlRenderer.WinForms.HtmlPanel();
+            this._htmlPanel = new TheArtOfDev.HtmlRenderer.WinForms.HtmlPanel();
             this.label2 = new System.Windows.Forms.Label();
             this._htmlLabelHostingPanel = new System.Windows.Forms.Panel();
-            this._htmlLabel = new Westermo.HtmlRenderer.WinForms.HtmlLabel();
+            this._htmlLabel = new TheArtOfDev.HtmlRenderer.WinForms.HtmlLabel();
             this.label1 = new System.Windows.Forms.Label();
             this._pGrid = new System.Windows.Forms.PropertyGrid();
             this._splitContainer.Panel1.SuspendLayout();

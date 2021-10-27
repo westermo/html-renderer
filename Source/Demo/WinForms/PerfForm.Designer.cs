@@ -1,6 +1,6 @@
-using Westermo.HtmlRenderer.WinForms;
+using TheArtOfDev.HtmlRenderer.WinForms;
 
-namespace Westermo.HtmlRenderer.Demo.WinForms
+namespace TheArtOfDev.HtmlRenderer.Demo.WinForms
 {
     partial class PerfForm
     {

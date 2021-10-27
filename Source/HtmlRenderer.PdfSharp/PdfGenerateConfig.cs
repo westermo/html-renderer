@@ -13,7 +13,7 @@
 using PdfSharp;
 using PdfSharp.Drawing;
 
-namespace Westermo.HtmlRenderer.PdfSharp
+namespace TheArtOfDev.HtmlRenderer.PdfSharp
 {
     /// <summary>
     /// The settings for generating PDF using <see cref="PdfGenerator"/>

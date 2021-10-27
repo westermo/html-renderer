@@ -14,12 +14,12 @@ using PdfSharp;
 using PdfSharp.Drawing;
 using PdfSharp.Pdf;
 using System;
-using Westermo.HtmlRenderer.Core;
-using Westermo.HtmlRenderer.Core.Entities;
-using Westermo.HtmlRenderer.Core.Utils;
-using Westermo.HtmlRenderer.PdfSharp.Adapters;
+using TheArtOfDev.HtmlRenderer.Core;
+using TheArtOfDev.HtmlRenderer.Core.Entities;
+using TheArtOfDev.HtmlRenderer.Core.Utils;
+using TheArtOfDev.HtmlRenderer.PdfSharp.Adapters;
 
-namespace Westermo.HtmlRenderer.PdfSharp
+namespace TheArtOfDev.HtmlRenderer.PdfSharp
 {
     /// <summary>
     /// TODO:a add doc

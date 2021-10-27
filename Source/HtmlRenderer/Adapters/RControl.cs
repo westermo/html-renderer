@@ -10,10 +10,10 @@
 // - Sun Tsu,
 // "The Art of War"
 
-using Westermo.HtmlRenderer.Adapters.Entities;
-using Westermo.HtmlRenderer.Core.Utils;
+using TheArtOfDev.HtmlRenderer.Adapters.Entities;
+using TheArtOfDev.HtmlRenderer.Core.Utils;
 
-namespace Westermo.HtmlRenderer.Adapters
+namespace TheArtOfDev.HtmlRenderer.Adapters
 {
     /// <summary>
     /// Adapter for platform specific control object - used to handle updating the control that the html is rendered on.<br/>

@@ -12,7 +12,7 @@
 
 using System.IO;
 
-namespace Westermo.HtmlRenderer.Demo.Common
+namespace TheArtOfDev.HtmlRenderer.Demo.Common
 {
     /// <summary>
     /// Get font, image and text resources for HtmlRenderer demo.
@@ -96,7 +96,7 @@ namespace Westermo.HtmlRenderer.Demo.Common
 
         private static Stream GetManifestResourceStream(string name)
         {
-            return typeof(Resources).Assembly.GetManifestResourceStream("Westermo.HtmlRenderer.Demo.Common.Resources." + name);
+            return typeof(Resources).Assembly.GetManifestResourceStream("TheArtOfDev.HtmlRenderer.Demo.Common.Resources." + name);
         }
     }
 }

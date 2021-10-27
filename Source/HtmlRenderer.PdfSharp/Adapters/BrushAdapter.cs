@@ -11,10 +11,10 @@
 // "The Art of War"
 
 using System;
-using Westermo.HtmlRenderer.Adapters;
+using TheArtOfDev.HtmlRenderer.Adapters;
 using PdfSharp.Drawing;
 
-namespace Westermo.HtmlRenderer.PdfSharp.Adapters
+namespace TheArtOfDev.HtmlRenderer.PdfSharp.Adapters
 {
     /// <summary>
     /// Adapter for WinForms brushes objects for core.

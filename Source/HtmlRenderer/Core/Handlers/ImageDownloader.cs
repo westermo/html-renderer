@@ -16,9 +16,9 @@ using System.ComponentModel;
 using System.IO;
 using System.Net;
 using System.Threading;
-using Westermo.HtmlRenderer.Core.Utils;
+using TheArtOfDev.HtmlRenderer.Core.Utils;
 
-namespace Westermo.HtmlRenderer.Core.Handlers
+namespace TheArtOfDev.HtmlRenderer.Core.Handlers
 {
     /// <summary>
     /// On download file async complete, success or fail.

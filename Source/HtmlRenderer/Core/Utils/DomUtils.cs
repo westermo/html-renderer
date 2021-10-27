@@ -13,12 +13,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Westermo.HtmlRenderer.Adapters.Entities;
-using Westermo.HtmlRenderer.Core.Dom;
-using Westermo.HtmlRenderer.Core.Entities;
-using Westermo.HtmlRenderer.Core.Parse;
+using TheArtOfDev.HtmlRenderer.Adapters.Entities;
+using TheArtOfDev.HtmlRenderer.Core.Dom;
+using TheArtOfDev.HtmlRenderer.Core.Entities;
+using TheArtOfDev.HtmlRenderer.Core.Parse;
 
-namespace Westermo.HtmlRenderer.Core.Utils
+namespace TheArtOfDev.HtmlRenderer.Core.Utils
 {
     /// <summary>
     /// Utility class for traversing DOM structure and execution stuff on it.
@@ -91,7 +91,7 @@ namespace Westermo.HtmlRenderer.Core.Utils
         /// Gets the previous sibling of this box.
         /// </summary>
         /// <returns>Box before this one on the tree. Null if its the first</returns>
-        public static CssBox? GetPreviousSibling(CssBox b)
+        public static CssBox GetPreviousSibling(CssBox b)
         {
             if (b.ParentBox != null)
             {
@@ -206,7 +206,7 @@ namespace Westermo.HtmlRenderer.Core.Utils
         /// <param name="location">the location to find the box by</param>
         /// <param name="visible">Optional: if to get only visible boxes (default - true)</param>
         /// <returns>css link box if exists or null</returns>
-        public static CssBox? GetCssBox(CssBox? box, RPoint location, bool visible = true)
+        public static CssBox GetCssBox(CssBox box, RPoint location, bool visible = true)
         {
             if (box != null)
             {
@@ -230,7 +230,7 @@ namespace Westermo.HtmlRenderer.Core.Utils
         /// </summary>
         /// <param name="box">the box to start search from</param>
         /// <param name="linkBoxes">collection to add all link boxes to</param>
-        public static void GetAllLinkBoxes(CssBox? box, List<CssBox> linkBoxes)
+        public static void GetAllLinkBoxes(CssBox box, List<CssBox> linkBoxes)
         {
             if (box != null)
             {
@@ -253,7 +253,7 @@ namespace Westermo.HtmlRenderer.Core.Utils
         /// <param name="box">the box to start search from</param>
         /// <param name="location">the location to find the box by</param>
         /// <returns>css link box if exists or null</returns>
-        public static CssBox? GetLinkBox(CssBox? box, RPoint location)
+        public static CssBox GetLinkBox(CssBox box, RPoint location)
         {
             if (box != null)
             {
@@ -283,7 +283,7 @@ namespace Westermo.HtmlRenderer.Core.Utils
         /// <param name="box">the box to start search from</param>
         /// <param name="id">the id to find the box by</param>
         /// <returns>css box if exists or null</returns>
-        public static CssBox? GetBoxById(CssBox? box, string id)
+        public static CssBox GetBoxById(CssBox box, string id)
         {
             if (box != null && !string.IsNullOrEmpty(id))
             {
@@ -310,14 +310,14 @@ namespace Westermo.HtmlRenderer.Core.Utils
         /// <param name="box">the box to start search from</param>
         /// <param name="location">the location to find the box at</param>
         /// <returns>css word box if exists or null</returns>
-        public static CssLineBox? GetCssLineBox(CssBox? box, RPoint location)
+        public static CssLineBox GetCssLineBox(CssBox box, RPoint location)
         {
-            CssLineBox? line = null;
+            CssLineBox line = null;
             if (box != null)
             {
                 if (box.LineBoxes.Count > 0)
                 {
-                    if (box.HtmlTag is not {Name: "td"} || box.Bounds.Contains(location))
+                    if (box.HtmlTag == null || box.HtmlTag.Name != "td" || box.Bounds.Contains(location))
                     {
                         foreach (var lineBox in box.LineBoxes)
                         {
@@ -353,9 +353,9 @@ namespace Westermo.HtmlRenderer.Core.Utils
         /// <param name="box">the box to start search from</param>
         /// <param name="location">the location to find the box at</param>
         /// <returns>css word box if exists or null</returns>
-        public static CssRect? GetCssBoxWord(CssBox? box, RPoint location)
+        public static CssRect GetCssBoxWord(CssBox box, RPoint location)
         {
-            if (box is {Visibility: CssConstants.Visible})
+            if (box != null && box.Visibility == CssConstants.Visible)
             {
                 if (box.LineBoxes.Count > 0)
                 {
@@ -390,7 +390,7 @@ namespace Westermo.HtmlRenderer.Core.Utils
         /// <param name="lineBox">the line box to search in</param>
         /// <param name="location">the location to find the box at</param>
         /// <returns>css word box if exists or null</returns>
-        public static CssRect? GetCssBoxWord(CssLineBox lineBox, RPoint location)
+        public static CssRect GetCssBoxWord(CssLineBox lineBox, RPoint location)
         {
             foreach (var rects in lineBox.Rectangles)
             {
@@ -398,7 +398,7 @@ namespace Westermo.HtmlRenderer.Core.Utils
                 {
                     // add word spacing to word width so sentence won't have hols in it when moving the mouse
                     var rect = word.Rectangle;
-                    rect.Width += word.OwnerBox!.ActualWordSpacing;
+                    rect.Width += word.OwnerBox.ActualWordSpacing;
                     if (rect.Contains(location))
                     {
                         return word;
@@ -453,14 +453,14 @@ namespace Westermo.HtmlRenderer.Core.Utils
         /// <param name="styleGen">Optional: controls the way styles are generated when html is generated</param>
         /// <param name="onlySelected">Optional: true - generate only selected html subset, false - generate all (default - false)</param>
         /// <returns>generated html</returns>
-        public static string GenerateHtml(CssBox? root, HtmlGenerationStyle styleGen = HtmlGenerationStyle.Inline, bool onlySelected = false)
+        public static string GenerateHtml(CssBox root, HtmlGenerationStyle styleGen = HtmlGenerationStyle.Inline, bool onlySelected = false)
         {
             var sb = new StringBuilder();
             if (root != null)
             {
                 var selectedBoxes = onlySelected ? CollectSelectedBoxes(root) : null;
                 var selectionRoot = onlySelected ? GetSelectionRoot(root, selectedBoxes) : null;
-                WriteHtml(root.HtmlContainer!.CssParser, sb, root, styleGen, selectedBoxes, selectionRoot);
+                WriteHtml(root.HtmlContainer.CssParser, sb, root, styleGen, selectedBoxes, selectionRoot);
             }
             return sb.ToString();
         }

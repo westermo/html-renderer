@@ -1,4 +1,4 @@
-﻿namespace Westermo.HtmlRenderer.Demo.WinForms
+﻿namespace TheArtOfDev.HtmlRenderer.Demo.WinForms
 {
     partial class GenerateImageForm
     {

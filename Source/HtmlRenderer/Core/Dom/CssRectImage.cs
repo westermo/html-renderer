@@ -10,10 +10,10 @@
 // - Sun Tsu,
 // "The Art of War"
 
-using Westermo.HtmlRenderer.Adapters;
-using Westermo.HtmlRenderer.Adapters.Entities;
+using TheArtOfDev.HtmlRenderer.Adapters;
+using TheArtOfDev.HtmlRenderer.Adapters.Entities;
 
-namespace Westermo.HtmlRenderer.Core.Dom
+namespace TheArtOfDev.HtmlRenderer.Core.Dom
 {
     /// <summary>
     /// Represents a word inside an inline box
@@ -21,6 +21,16 @@ namespace Westermo.HtmlRenderer.Core.Dom
     internal sealed class CssRectImage : CssRect
     {
         #region Fields and Consts
+
+        /// <summary>
+        /// the image object if it is image word (can be null if not loaded)
+        /// </summary>
+        private RImage _image;
+
+        /// <summary>
+        /// the image rectangle restriction as returned from image load event
+        /// </summary>
+        private RRect _imageRectangle;
 
         #endregion
 
@@ -36,17 +46,28 @@ namespace Westermo.HtmlRenderer.Core.Dom
         /// <summary>
         /// Gets the image this words represents (if one exists)
         /// </summary>
-        public override RImage? Image { get; set; }
+        public override RImage Image
+        {
+            get { return _image; }
+            set { _image = value; }
+        }
 
         /// <summary>
         /// Gets if the word represents an image.
         /// </summary>
-        public override bool IsImage => true;
+        public override bool IsImage
+        {
+            get { return true; }
+        }
 
         /// <summary>
         /// the image rectange restriction as returned from image load event
         /// </summary>
-        public RRect ImageRectangle { get; set; }
+        public RRect ImageRectangle
+        {
+            get { return _imageRectangle; }
+            set { _imageRectangle = value; }
+        }
 
         /// <summary>
         /// Represents this word for debugging purposes

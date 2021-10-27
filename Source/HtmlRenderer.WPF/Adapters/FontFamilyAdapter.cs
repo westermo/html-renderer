@@ -12,9 +12,9 @@
 
 using System.Windows.Markup;
 using System.Windows.Media;
-using Westermo.HtmlRenderer.Adapters;
+using TheArtOfDev.HtmlRenderer.Adapters;
 
-namespace Westermo.HtmlRenderer.WPF.Adapters
+namespace TheArtOfDev.HtmlRenderer.WPF.Adapters
 {
     /// <summary>
     /// Adapter for WPF Font family object for core.

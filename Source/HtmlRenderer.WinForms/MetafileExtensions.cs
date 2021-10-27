@@ -3,7 +3,7 @@ using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace Westermo.HtmlRenderer.WinForms
+namespace TheArtOfDev.HtmlRenderer.WinForms
 {
     public static class MetafileExtensions
     {

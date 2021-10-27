@@ -11,9 +11,9 @@
 // "The Art of War"
 
 using System;
-using Westermo.HtmlRenderer.Adapters.Entities;
+using TheArtOfDev.HtmlRenderer.Adapters.Entities;
 
-namespace Westermo.HtmlRenderer.Adapters
+namespace TheArtOfDev.HtmlRenderer.Adapters
 {
     /// <summary>
     /// Adapter for platform specific context menu - used to create and show context menu at specific location.<br/>

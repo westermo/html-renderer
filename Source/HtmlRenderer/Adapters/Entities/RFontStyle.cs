@@ -12,7 +12,7 @@
 
 using System;
 
-namespace Westermo.HtmlRenderer.Adapters.Entities
+namespace TheArtOfDev.HtmlRenderer.Adapters.Entities
 {
     /// <summary>
     /// Specifies style information applied to text.

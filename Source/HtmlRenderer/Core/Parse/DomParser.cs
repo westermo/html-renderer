@@ -12,13 +12,13 @@
 
 using System;
 using System.Globalization;
-using Westermo.HtmlRenderer.Adapters.Entities;
-using Westermo.HtmlRenderer.Core.Dom;
-using Westermo.HtmlRenderer.Core.Entities;
-using Westermo.HtmlRenderer.Core.Handlers;
-using Westermo.HtmlRenderer.Core.Utils;
+using TheArtOfDev.HtmlRenderer.Adapters.Entities;
+using TheArtOfDev.HtmlRenderer.Core.Dom;
+using TheArtOfDev.HtmlRenderer.Core.Entities;
+using TheArtOfDev.HtmlRenderer.Core.Handlers;
+using TheArtOfDev.HtmlRenderer.Core.Utils;
 
-namespace Westermo.HtmlRenderer.Core.Parse
+namespace TheArtOfDev.HtmlRenderer.Core.Parse
 {
     /// <summary>
     /// Handle css DOM tree generation from raw html and stylesheet.
@@ -52,7 +52,7 @@ namespace Westermo.HtmlRenderer.Core.Parse
         /// <param name="htmlContainer">the html container to use for reference resolve</param>
         /// <param name="cssData">the css data to use</param>
         /// <returns>the root of the generated tree</returns>
-        public CssBox? GenerateCssTree(string html, HtmlContainerInt htmlContainer, ref CssData cssData)
+        public CssBox GenerateCssTree(string html, HtmlContainerInt htmlContainer, ref CssData cssData)
         {
             var root = HtmlParser.ParseDocument(html);
             if (root != null)

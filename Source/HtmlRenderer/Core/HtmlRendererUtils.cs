@@ -11,10 +11,10 @@
 // "The Art of War"
 
 using System;
-using Westermo.HtmlRenderer.Adapters;
-using Westermo.HtmlRenderer.Adapters.Entities;
+using TheArtOfDev.HtmlRenderer.Adapters;
+using TheArtOfDev.HtmlRenderer.Adapters.Entities;
 
-namespace Westermo.HtmlRenderer.Core
+namespace TheArtOfDev.HtmlRenderer.Core
 {
     /// <summary>
     /// General utilities.

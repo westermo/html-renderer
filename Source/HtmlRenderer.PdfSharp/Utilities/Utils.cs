@@ -12,9 +12,9 @@
 
 using PdfSharp.Drawing;
 using System.Drawing;
-using Westermo.HtmlRenderer.Adapters.Entities;
+using TheArtOfDev.HtmlRenderer.Adapters.Entities;
 
-namespace Westermo.HtmlRenderer.PdfSharp.Utilities
+namespace TheArtOfDev.HtmlRenderer.PdfSharp.Utilities
 {
     /// <summary>
     /// Utilities for converting WinForms entities to HtmlRenderer core entities.

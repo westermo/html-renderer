@@ -15,13 +15,13 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.Drawing.Text;
-using Westermo.HtmlRenderer.Core;
-using Westermo.HtmlRenderer.Core.Entities;
-using Westermo.HtmlRenderer.Core.Utils;
-using Westermo.HtmlRenderer.WinForms.Adapters;
-using Westermo.HtmlRenderer.WinForms.Utilities;
+using TheArtOfDev.HtmlRenderer.Core;
+using TheArtOfDev.HtmlRenderer.Core.Entities;
+using TheArtOfDev.HtmlRenderer.Core.Utils;
+using TheArtOfDev.HtmlRenderer.WinForms.Adapters;
+using TheArtOfDev.HtmlRenderer.WinForms.Utilities;
 
-namespace Westermo.HtmlRenderer.WinForms
+namespace TheArtOfDev.HtmlRenderer.WinForms
 {
     /// <summary>
     /// Standalone static class for simple and direct HTML rendering.<br/>

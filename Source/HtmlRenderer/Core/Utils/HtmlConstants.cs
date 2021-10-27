@@ -1,4 +1,4 @@
-namespace Westermo.HtmlRenderer.Core.Utils
+namespace TheArtOfDev.HtmlRenderer.Core.Utils
 {
     /// <summary>
     /// Defines HTML strings

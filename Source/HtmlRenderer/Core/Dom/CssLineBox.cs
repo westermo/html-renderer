@@ -12,10 +12,10 @@
 
 using System;
 using System.Collections.Generic;
-using Westermo.HtmlRenderer.Adapters;
-using Westermo.HtmlRenderer.Adapters.Entities;
+using TheArtOfDev.HtmlRenderer.Adapters;
+using TheArtOfDev.HtmlRenderer.Adapters.Entities;
 
-namespace Westermo.HtmlRenderer.Core.Dom
+namespace TheArtOfDev.HtmlRenderer.Core.Dom
 {
     /// <summary>
     /// Represents a line of text.
@@ -227,7 +227,7 @@ namespace Westermo.HtmlRenderer.Core.Dom
             }
             else
             {
-                CssRect firstw = b.FirstWordOccurence(b, this);
+                CssRect firstw = b.FirstWordOccourence(b, this);
 
                 if (firstw != null)
                 {

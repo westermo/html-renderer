@@ -10,14 +10,15 @@
 // - Sun Tsu,
 // "The Art of War"
 
+using System;
 using System.Globalization;
 using System.Text.RegularExpressions;
-using Westermo.HtmlRenderer.Adapters;
-using Westermo.HtmlRenderer.Adapters.Entities;
-using Westermo.HtmlRenderer.Core.Parse;
-using Westermo.HtmlRenderer.Core.Utils;
+using TheArtOfDev.HtmlRenderer.Adapters;
+using TheArtOfDev.HtmlRenderer.Adapters.Entities;
+using TheArtOfDev.HtmlRenderer.Core.Parse;
+using TheArtOfDev.HtmlRenderer.Core.Utils;
 
-namespace Westermo.HtmlRenderer.Core.Dom
+namespace TheArtOfDev.HtmlRenderer.Core.Dom
 {
     /// <summary>
     /// Base class for css box to handle the css properties.<br/>
@@ -30,6 +31,12 @@ namespace Westermo.HtmlRenderer.Core.Dom
     {
         #region CSS Fields
 
+        private string _backgroundColor = "transparent";
+        private string _backgroundGradient = "none";
+        private string _backgroundGradientAngle = "90";
+        private string _backgroundImage = "none";
+        private string _backgroundPosition = "0% 0%";
+        private string _backgroundRepeat = "repeat";
         private string _borderTopWidth = "medium";
         private string _borderRightWidth = "medium";
         private string _borderBottomWidth = "medium";
@@ -38,20 +45,59 @@ namespace Westermo.HtmlRenderer.Core.Dom
         private string _borderRightColor = "black";
         private string _borderBottomColor = "black";
         private string _borderLeftColor = "black";
-        private string? _bottom;
+        private string _borderTopStyle = "none";
+        private string _borderRightStyle = "none";
+        private string _borderBottomStyle = "none";
+        private string _borderLeftStyle = "none";
+        private string _borderSpacing = "0";
+        private string _borderCollapse = "separate";
+        private string _bottom;
         private string _color = "black";
+        private string _content = "normal";
+        private string _cornerNwRadius = "0";
+        private string _cornerNeRadius = "0";
+        private string _cornerSeRadius = "0";
+        private string _cornerSwRadius = "0";
         private string _cornerRadius = "0";
+        private string _emptyCells = "show";
+        private string _direction = "ltr";
+        private string _display = "inline";
+        private string _fontFamily;
         private string _fontSize = "medium";
+        private string _fontStyle = "normal";
+        private string _fontVariant = "normal";
+        private string _fontWeight = "normal";
+        private string _float = "none";
+        private string _height = "auto";
+        private string _marginBottom = "0";
+        private string _marginLeft = "0";
+        private string _marginRight = "0";
+        private string _marginTop = "0";
         private string _left = "auto";
         private string _lineHeight = "normal";
+        private string _listStyleType = "disc";
+        private string _listStyleImage = string.Empty;
+        private string _listStylePosition = "outside";
+        private string _listStyle = string.Empty;
+        private string _overflow = "visible";
         private string _paddingLeft = "0";
         private string _paddingBottom = "0";
         private string _paddingRight = "0";
         private string _paddingTop = "0";
-        private string? _right;
+        private string _pageBreakInside = CssConstants.Auto;
+        private string _right;
+        private string _textAlign = string.Empty;
+        private string _textDecoration = string.Empty;
         private string _textIndent = "0";
         private string _top = "auto";
+        private string _position = "static";
+        private string _verticalAlign = "baseline";
+        private string _width = "auto";
+        private string _maxWidth = "none";
         private string _wordSpacing = "normal";
+        private string _wordBreak = "normal";
+        private string _whiteSpace = "normal";
+        private string _visibility = "visible";
 
         #endregion
 
@@ -95,6 +141,7 @@ namespace Westermo.HtmlRenderer.Core.Dom
         /// </summary>
         private double _actualLineHeight = double.NaN;
 
+        private double _actualWordSpacing = double.NaN;
         private double _actualTextIndent = double.NaN;
         private double _actualBorderSpacingHorizontal = double.NaN;
         private double _actualBorderSpacingVertical = double.NaN;
@@ -104,7 +151,7 @@ namespace Westermo.HtmlRenderer.Core.Dom
         private RColor _actualBorderBottomColor = RColor.Empty;
         private RColor _actualBorderRightColor = RColor.Empty;
         private RColor _actualBackgroundColor = RColor.Empty;
-        private RFont? _actualFont;
+        private RFont _actualFont;
 
         #endregion
 
@@ -113,55 +160,71 @@ namespace Westermo.HtmlRenderer.Core.Dom
 
         public string BorderBottomWidth
         {
-            get => _borderBottomWidth;
+            get { return _borderBottomWidth; }
             set
             {
                 _borderBottomWidth = value;
-                _actualBorderBottomWidth = float.NaN;
+                _actualBorderBottomWidth = Single.NaN;
             }
         }
 
         public string BorderLeftWidth
         {
-            get => _borderLeftWidth;
+            get { return _borderLeftWidth; }
             set
             {
                 _borderLeftWidth = value;
-                _actualBorderLeftWidth = float.NaN;
+                _actualBorderLeftWidth = Single.NaN;
             }
         }
 
         public string BorderRightWidth
         {
-            get => _borderRightWidth;
+            get { return _borderRightWidth; }
             set
             {
                 _borderRightWidth = value;
-                _actualBorderRightWidth = float.NaN;
+                _actualBorderRightWidth = Single.NaN;
             }
         }
 
         public string BorderTopWidth
         {
-            get => _borderTopWidth;
+            get { return _borderTopWidth; }
             set
             {
                 _borderTopWidth = value;
-                _actualBorderTopWidth = float.NaN;
+                _actualBorderTopWidth = Single.NaN;
             }
         }
 
-        public string BorderBottomStyle { get; set; } = "none";
+        public string BorderBottomStyle
+        {
+            get { return _borderBottomStyle; }
+            set { _borderBottomStyle = value; }
+        }
 
-        public string BorderLeftStyle { get; set; } = "none";
+        public string BorderLeftStyle
+        {
+            get { return _borderLeftStyle; }
+            set { _borderLeftStyle = value; }
+        }
 
-        public string BorderRightStyle { get; set; } = "none";
+        public string BorderRightStyle
+        {
+            get { return _borderRightStyle; }
+            set { _borderRightStyle = value; }
+        }
 
-        public string BorderTopStyle { get; set; } = "none";
+        public string BorderTopStyle
+        {
+            get { return _borderTopStyle; }
+            set { _borderTopStyle = value; }
+        }
 
         public string BorderBottomColor
         {
-            get => _borderBottomColor;
+            get { return _borderBottomColor; }
             set
             {
                 _borderBottomColor = value;
@@ -171,7 +234,7 @@ namespace Westermo.HtmlRenderer.Core.Dom
 
         public string BorderLeftColor
         {
-            get => _borderLeftColor;
+            get { return _borderLeftColor; }
             set
             {
                 _borderLeftColor = value;
@@ -181,7 +244,7 @@ namespace Westermo.HtmlRenderer.Core.Dom
 
         public string BorderRightColor
         {
-            get => _borderRightColor;
+            get { return _borderRightColor; }
             set
             {
                 _borderRightColor = value;
@@ -191,7 +254,7 @@ namespace Westermo.HtmlRenderer.Core.Dom
 
         public string BorderTopColor
         {
-            get => _borderTopColor;
+            get { return _borderTopColor; }
             set
             {
                 _borderTopColor = value;
@@ -199,13 +262,21 @@ namespace Westermo.HtmlRenderer.Core.Dom
             }
         }
 
-        public string BorderSpacing { get; set; } = "0";
+        public string BorderSpacing
+        {
+            get { return _borderSpacing; }
+            set { _borderSpacing = value; }
+        }
 
-        public string BorderCollapse { get; set; } = "separate";
+        public string BorderCollapse
+        {
+            get { return _borderCollapse; }
+            set { _borderCollapse = value; }
+        }
 
         public string CornerRadius
         {
-            get => _cornerRadius;
+            get { return _cornerRadius; }
             set
             {
                 MatchCollection r = RegexParserUtils.Match(RegexParserUtils.CssLength, value);
@@ -241,25 +312,57 @@ namespace Westermo.HtmlRenderer.Core.Dom
             }
         }
 
-        public string CornerNwRadius { get; set; } = "0";
+        public string CornerNwRadius
+        {
+            get { return _cornerNwRadius; }
+            set { _cornerNwRadius = value; }
+        }
 
-        public string CornerNeRadius { get; set; } = "0";
+        public string CornerNeRadius
+        {
+            get { return _cornerNeRadius; }
+            set { _cornerNeRadius = value; }
+        }
 
-        public string CornerSeRadius { get; set; } = "0";
+        public string CornerSeRadius
+        {
+            get { return _cornerSeRadius; }
+            set { _cornerSeRadius = value; }
+        }
 
-        public string CornerSwRadius { get; set; } = "0";
+        public string CornerSwRadius
+        {
+            get { return _cornerSwRadius; }
+            set { _cornerSwRadius = value; }
+        }
 
-        public string MarginBottom { get; set; } = "0";
+        public string MarginBottom
+        {
+            get { return _marginBottom; }
+            set { _marginBottom = value; }
+        }
 
-        public string MarginLeft { get; set; } = "0";
+        public string MarginLeft
+        {
+            get { return _marginLeft; }
+            set { _marginLeft = value; }
+        }
 
-        public string MarginRight { get; set; } = "0";
+        public string MarginRight
+        {
+            get { return _marginRight; }
+            set { _marginRight = value; }
+        }
 
-        public string MarginTop { get; set; } = "0";
+        public string MarginTop
+        {
+            get { return _marginTop; }
+            set { _marginTop = value; }
+        }
 
         public string PaddingBottom
         {
-            get => _paddingBottom;
+            get { return _paddingBottom; }
             set
             {
                 _paddingBottom = value;
@@ -269,7 +372,7 @@ namespace Westermo.HtmlRenderer.Core.Dom
 
         public string PaddingLeft
         {
-            get => _paddingLeft;
+            get { return _paddingLeft; }
             set
             {
                 _paddingLeft = value;
@@ -279,7 +382,7 @@ namespace Westermo.HtmlRenderer.Core.Dom
 
         public string PaddingRight
         {
-            get => _paddingRight;
+            get { return _paddingRight; }
             set
             {
                 _paddingRight = value;
@@ -289,7 +392,7 @@ namespace Westermo.HtmlRenderer.Core.Dom
 
         public string PaddingTop
         {
-            get => _paddingTop;
+            get { return _paddingTop; }
             set
             {
                 _paddingTop = value;
@@ -297,11 +400,18 @@ namespace Westermo.HtmlRenderer.Core.Dom
             }
         }
 
-        public string PageBreakInside { get; set; } = CssConstants.Auto;
+        public string PageBreakInside
+        {
+            get { return _pageBreakInside; }
+            set
+            {
+                _pageBreakInside = value;
+            }
+        }
 
         public string Left
         {
-            get => _left;
+            get { return _left; }
             set
             {
                 _left = value;
@@ -315,7 +425,7 @@ namespace Westermo.HtmlRenderer.Core.Dom
 
         public string Top
         {
-            get => _top;
+            get { return _top; }
             set {
                 _top = value;
 
@@ -327,27 +437,63 @@ namespace Westermo.HtmlRenderer.Core.Dom
             }
         }
 
-        public string Width { get; set; } = "auto";
+        public string Width
+        {
+            get { return _width; }
+            set { _width = value; }
+        }
 
-        public string MaxWidth { get; set; } = "none";
+        public string MaxWidth
+        {
+            get { return _maxWidth; }
+            set { _maxWidth = value; }
+        }
 
-        public string Height { get; set; } = "auto";
+        public string Height
+        {
+            get { return _height; }
+            set { _height = value; }
+        }
 
-        public string BackgroundColor { get; set; } = "transparent";
+        public string BackgroundColor
+        {
+            get { return _backgroundColor; }
+            set { _backgroundColor = value; }
+        }
 
-        public string BackgroundImage { get; set; } = "none";
+        public string BackgroundImage
+        {
+            get { return _backgroundImage; }
+            set { _backgroundImage = value; }
+        }
 
-        public string BackgroundPosition { get; set; } = "0% 0%";
+        public string BackgroundPosition
+        {
+            get { return _backgroundPosition; }
+            set { _backgroundPosition = value; }
+        }
 
-        public string BackgroundRepeat { get; set; } = "repeat";
+        public string BackgroundRepeat
+        {
+            get { return _backgroundRepeat; }
+            set { _backgroundRepeat = value; }
+        }
 
-        public string BackgroundGradient { get; set; } = "none";
+        public string BackgroundGradient
+        {
+            get { return _backgroundGradient; }
+            set { _backgroundGradient = value; }
+        }
 
-        public string BackgroundGradientAngle { get; set; } = "90";
+        public string BackgroundGradientAngle
+        {
+            get { return _backgroundGradientAngle; }
+            set { _backgroundGradientAngle = value; }
+        }
 
         public string Color
         {
-            get => _color;
+            get { return _color; }
             set
             {
                 _color = value;
@@ -355,56 +501,108 @@ namespace Westermo.HtmlRenderer.Core.Dom
             }
         }
 
-        public string Content { get; set; } = "normal";
+        public string Content
+        {
+            get { return _content; }
+            set { _content = value; }
+        }
 
-        public string Display { get; set; } = "inline";
+        public string Display
+        {
+            get { return _display; }
+            set { _display = value; }
+        }
 
-        public string Direction { get; set; } = "ltr";
+        public string Direction
+        {
+            get { return _direction; }
+            set { _direction = value; }
+        }
 
-        public string EmptyCells { get; set; } = "show";
+        public string EmptyCells
+        {
+            get { return _emptyCells; }
+            set { _emptyCells = value; }
+        }
 
-        public string Float { get; set; } = "none";
+        public string Float
+        {
+            get { return _float; }
+            set { _float = value; }
+        }
 
-        public string Position { get; set; } = "static";
+        public string Position
+        {
+            get { return _position; }
+            set { _position = value; }
+        }
 
         public string LineHeight
         {
-            get => _lineHeight;
-            set => _lineHeight = string.Format(NumberFormatInfo.InvariantInfo, "{0}px", CssValueParser.ParseLength(value, Size.Height, this, CssConstants.Em));
+            get { return _lineHeight; }
+            set { _lineHeight = string.Format(NumberFormatInfo.InvariantInfo, "{0}px", CssValueParser.ParseLength(value, Size.Height, this, CssConstants.Em)); }
         }
 
-        public string VerticalAlign { get; set; } = "baseline";
+        public string VerticalAlign
+        {
+            get { return _verticalAlign; }
+            set { _verticalAlign = value; }
+        }
 
         public string TextIndent
         {
-            get => _textIndent;
-            set => _textIndent = NoEms(value);
+            get { return _textIndent; }
+            set { _textIndent = NoEms(value); }
         }
 
-        public string TextAlign { get; set; } = string.Empty;
+        public string TextAlign
+        {
+            get { return _textAlign; }
+            set { _textAlign = value; }
+        }
 
-        public string TextDecoration { get; set; } = string.Empty;
+        public string TextDecoration
+        {
+            get { return _textDecoration; }
+            set { _textDecoration = value; }
+        }
 
-        public string WhiteSpace { get; set; } = "normal";
+        public string WhiteSpace
+        {
+            get { return _whiteSpace; }
+            set { _whiteSpace = value; }
+        }
 
-        public string Visibility { get; set; } = "visible";
+        public string Visibility
+        {
+            get { return _visibility; }
+            set { _visibility = value; }
+        }
 
         public string WordSpacing
         {
-            get => _wordSpacing;
-            set => _wordSpacing = NoEms(value);
+            get { return _wordSpacing; }
+            set { _wordSpacing = NoEms(value); }
         }
 
-        public string WordBreak { get; set; } = "normal";
+        public string WordBreak
+        {
+            get { return _wordBreak; }
+            set { _wordBreak = value; }
+        }
 
-        public string? FontFamily { get; set; }
+        public string FontFamily
+        {
+            get { return _fontFamily; }
+            set { _fontFamily = value; }
+        }
 
         public string FontSize
         {
-            get => _fontSize;
+            get { return _fontSize; }
             set
             {
-                var length = RegexParserUtils.Search(RegexParserUtils.CssLength, value);
+                string length = RegexParserUtils.Search(RegexParserUtils.CssLength, value);
 
                 if (length != null)
                 {
@@ -417,7 +615,7 @@ namespace Westermo.HtmlRenderer.Core.Dom
                     }
                     else if (len.Unit == CssUnit.Ems && GetParent() != null)
                     {
-                        computedValue = len.ConvertEmToPoints(GetParent()!.ActualFont.Size).ToString();
+                        computedValue = len.ConvertEmToPoints(GetParent().ActualFont.Size).ToString();
                     }
                     else
                     {
@@ -433,21 +631,53 @@ namespace Westermo.HtmlRenderer.Core.Dom
             }
         }
 
-        public string FontStyle { get; set; } = "normal";
+        public string FontStyle
+        {
+            get { return _fontStyle; }
+            set { _fontStyle = value; }
+        }
 
-        public string FontVariant { get; set; } = "normal";
+        public string FontVariant
+        {
+            get { return _fontVariant; }
+            set { _fontVariant = value; }
+        }
 
-        public string FontWeight { get; set; } = "normal";
+        public string FontWeight
+        {
+            get { return _fontWeight; }
+            set { _fontWeight = value; }
+        }
 
-        public string ListStyle { get; set; } = string.Empty;
+        public string ListStyle
+        {
+            get { return _listStyle; }
+            set { _listStyle = value; }
+        }
 
-        public string Overflow { get; set; } = "visible";
+        public string Overflow
+        {
+            get { return _overflow; }
+            set { _overflow = value; }
+        }
 
-        public string ListStylePosition { get; set; } = "outside";
+        public string ListStylePosition
+        {
+            get { return _listStylePosition; }
+            set { _listStylePosition = value; }
+        }
 
-        public string ListStyleImage { get; set; } = string.Empty;
+        public string ListStyleImage
+        {
+            get { return _listStyleImage; }
+            set { _listStyleImage = value; }
+        }
 
-        public string ListStyleType { get; set; } = "disc";
+        public string ListStyleType
+        {
+            get { return _listStyleType; }
+            set { _listStyleType = value; }
+        }
 
         #endregion CSS Propertier
 
@@ -459,11 +689,16 @@ namespace Westermo.HtmlRenderer.Core.Dom
             get {
                 if (_location.IsEmpty && Position == CssConstants.Fixed)
                 {
+                    var left = Left;
+                    var top = Top;
+
                     _location = GetActualLocation(Left, Top);
                 }
                 return _location;
             }
-            set => _location = value;
+            set {
+                _location = value;
+            }
         }
 
         /// <summary>
@@ -471,27 +706,33 @@ namespace Westermo.HtmlRenderer.Core.Dom
         /// </summary>
         public RSize Size
         {
-            get => _size;
-            set => _size = value;
+            get { return _size; }
+            set { _size = value; }
         }
 
         /// <summary>
         /// Gets the bounds of the box
         /// </summary>
-        public RRect Bounds => new RRect(Location, Size);
+        public RRect Bounds
+        {
+            get { return new RRect(Location, Size); }
+        }
 
         /// <summary>
         /// Gets the width available on the box, counting padding and margin.
         /// </summary>
-        public double AvailableWidth => Size.Width - ActualBorderLeftWidth - ActualPaddingLeft - ActualPaddingRight - ActualBorderRightWidth;
+        public double AvailableWidth
+        {
+            get { return Size.Width - ActualBorderLeftWidth - ActualPaddingLeft - ActualPaddingRight - ActualBorderRightWidth; }
+        }
 
         /// <summary>
         /// Gets the right of the box. When setting, it will affect only the width of the box.
         /// </summary>
         public double ActualRight
         {
-            get => Location.X + Size.Width;
-            set => Size = new RSize(value - Location.X, Size.Height);
+            get { return Location.X + Size.Width; }
+            set { Size = new RSize(value - Location.X, Size.Height); }
         }
 
         /// <summary>
@@ -500,34 +741,49 @@ namespace Westermo.HtmlRenderer.Core.Dom
         /// </summary>
         public double ActualBottom
         {
-            get => Location.Y + Size.Height;
-            set => Size = new RSize(Size.Width, value - Location.Y);
+            get { return Location.Y + Size.Height; }
+            set { Size = new RSize(Size.Width, value - Location.Y); }
         }
 
         /// <summary>
         /// Gets the left of the client rectangle (Where content starts rendering)
         /// </summary>
-        public double ClientLeft => Location.X + ActualBorderLeftWidth + ActualPaddingLeft;
+        public double ClientLeft
+        {
+            get { return Location.X + ActualBorderLeftWidth + ActualPaddingLeft; }
+        }
 
         /// <summary>
         /// Gets the top of the client rectangle (Where content starts rendering)
         /// </summary>
-        public double ClientTop => Location.Y + ActualBorderTopWidth + ActualPaddingTop;
+        public double ClientTop
+        {
+            get { return Location.Y + ActualBorderTopWidth + ActualPaddingTop; }
+        }
 
         /// <summary>
         /// Gets the right of the client rectangle
         /// </summary>
-        public double ClientRight => ActualRight - ActualPaddingRight - ActualBorderRightWidth;
+        public double ClientRight
+        {
+            get { return ActualRight - ActualPaddingRight - ActualBorderRightWidth; }
+        }
 
         /// <summary>
         /// Gets the bottom of the client rectangle
         /// </summary>
-        public double ClientBottom => ActualBottom - ActualPaddingBottom - ActualBorderBottomWidth;
+        public double ClientBottom
+        {
+            get { return ActualBottom - ActualPaddingBottom - ActualBorderBottomWidth; }
+        }
 
         /// <summary>
         /// Gets the client rectangle
         /// </summary>
-        public RRect ClientRectangle => RRect.FromLTRB(ClientLeft, ClientTop, ClientRight, ClientBottom);
+        public RRect ClientRectangle
+        {
+            get { return RRect.FromLTRB(ClientLeft, ClientTop, ClientRight, ClientBottom); }
+        }
 
         /// <summary>
         /// Gets the actual height
@@ -644,8 +900,8 @@ namespace Westermo.HtmlRenderer.Core.Dom
         /// </summary>
         public double CollapsedMarginTop
         {
-            get => double.IsNaN(_collapsedMarginTop) ? 0 : _collapsedMarginTop;
-            set => _collapsedMarginTop = value;
+            get { return double.IsNaN(_collapsedMarginTop) ? 0 : _collapsedMarginTop; }
+            set { _collapsedMarginTop = value; }
         }
 
         /// <summary>
@@ -799,7 +1055,7 @@ namespace Westermo.HtmlRenderer.Core.Dom
             }
         }
 
-        protected abstract RPoint GetActualLocation(string x, string y);
+        protected abstract RPoint GetActualLocation(string X, string Y);
 
         protected abstract RColor GetActualColor(string colorStr);
 
@@ -911,12 +1167,18 @@ namespace Westermo.HtmlRenderer.Core.Dom
         /// <summary>
         /// Gets a value indicating if at least one of the corners of the box is rounded
         /// </summary>
-        public bool IsRounded => ActualCornerNe > 0f || ActualCornerNw > 0f || ActualCornerSe > 0f || ActualCornerSw > 0f;
+        public bool IsRounded
+        {
+            get { return ActualCornerNe > 0f || ActualCornerNw > 0f || ActualCornerSe > 0f || ActualCornerSw > 0f; }
+        }
 
         /// <summary>
         /// Gets the actual width of whitespace between words.
         /// </summary>
-        public double ActualWordSpacing { get; private set; } = double.NaN;
+        public double ActualWordSpacing
+        {
+            get { return _actualWordSpacing; }
+        }
 
         /// <summary>
         /// 
@@ -985,7 +1247,10 @@ namespace Westermo.HtmlRenderer.Core.Dom
         /// <summary>
         /// Gets the actual font of the parent
         /// </summary>
-        public RFont ActualParentFont => GetParent() == null ? ActualFont : GetParent()!.ActualFont;
+        public RFont ActualParentFont
+        {
+            get { return GetParent() == null ? ActualFont : GetParent().ActualFont; }
+        }
 
         /// <summary>
         /// Gets the font that should be actually used to paint the text of the box
@@ -1021,7 +1286,7 @@ namespace Westermo.HtmlRenderer.Core.Dom
                     double parentSize = CssConstants.FontSize;
 
                     if (GetParent() != null)
-                        parentSize = GetParent()!.ActualFont.Size;
+                        parentSize = GetParent().ActualFont.Size;
 
                     switch (FontSize)
                     {
@@ -1062,7 +1327,7 @@ namespace Westermo.HtmlRenderer.Core.Dom
                         fsize = CssConstants.FontSize;
                     }
 
-                    _actualFont = GetCachedFont(FontFamily ?? "", fsize, st);
+                    _actualFont = GetCachedFont(FontFamily, fsize, st);
                 }
                 return _actualFont;
             }
@@ -1159,7 +1424,7 @@ namespace Westermo.HtmlRenderer.Core.Dom
         /// Get the parent of this css properties instance.
         /// </summary>
         /// <returns></returns>
-        protected abstract CssBoxProperties? GetParent();
+        protected abstract CssBoxProperties GetParent();
 
         /// <summary>
         /// Gets the height of the font in the specified units
@@ -1191,7 +1456,7 @@ namespace Westermo.HtmlRenderer.Core.Dom
         /// <param name="style">optional: the style to set</param>
         /// <param name="width">optional: the width to set</param>
         /// <param name="color">optional: the color to set</param>
-        protected void SetAllBorders(string? style = null, string? width = null, string? color = null)
+        protected void SetAllBorders(string style = null, string width = null, string color = null)
         {
             if (style != null)
                 BorderLeftStyle = BorderTopStyle = BorderRightStyle = BorderBottomStyle = style;
@@ -1208,11 +1473,11 @@ namespace Westermo.HtmlRenderer.Core.Dom
         {
             if (double.IsNaN(ActualWordSpacing))
             {
-                ActualWordSpacing = CssUtils.WhiteSpace(g, this);
+                _actualWordSpacing = CssUtils.WhiteSpace(g, this);
                 if (WordSpacing != CssConstants.Normal)
                 {
-                    var len = RegexParserUtils.Search(RegexParserUtils.CssLength, WordSpacing);
-                    ActualWordSpacing += CssValueParser.ParseLength(len, 1, this);
+                    string len = RegexParserUtils.Search(RegexParserUtils.CssLength, WordSpacing);
+                    _actualWordSpacing += CssValueParser.ParseLength(len, 1, this);
                 }
             }
         }
@@ -1222,40 +1487,40 @@ namespace Westermo.HtmlRenderer.Core.Dom
         /// </summary>
         /// <param name="everything">Set to true to inherit all CSS properties instead of only the ineritables</param>
         /// <param name="p">Box to inherit the properties</param>
-        protected void InheritStyle(CssBox? p, bool everything)
+        protected void InheritStyle(CssBox p, bool everything)
         {
             if (p != null)
             {
-                BorderSpacing = p.BorderSpacing;
-                BorderCollapse = p.BorderCollapse;
+                _borderSpacing = p._borderSpacing;
+                _borderCollapse = p._borderCollapse;
                 _color = p._color;
-                EmptyCells = p.EmptyCells;
-                WhiteSpace = p.WhiteSpace;
-                Visibility = p.Visibility;
+                _emptyCells = p._emptyCells;
+                _whiteSpace = p._whiteSpace;
+                _visibility = p._visibility;
                 _textIndent = p._textIndent;
-                TextAlign = p.TextAlign;
-                VerticalAlign = p.VerticalAlign;
-                FontFamily = p.FontFamily;
+                _textAlign = p._textAlign;
+                _verticalAlign = p._verticalAlign;
+                _fontFamily = p._fontFamily;
                 _fontSize = p._fontSize;
-                FontStyle = p.FontStyle;
-                FontVariant = p.FontVariant;
-                FontWeight = p.FontWeight;
-                ListStyleImage = p.ListStyleImage;
-                ListStylePosition = p.ListStylePosition;
-                ListStyleType = p.ListStyleType;
-                ListStyle = p.ListStyle;
+                _fontStyle = p._fontStyle;
+                _fontVariant = p._fontVariant;
+                _fontWeight = p._fontWeight;
+                _listStyleImage = p._listStyleImage;
+                _listStylePosition = p._listStylePosition;
+                _listStyleType = p._listStyleType;
+                _listStyle = p._listStyle;
                 _lineHeight = p._lineHeight;
-                WordBreak = p.WordBreak;
-                Direction = p.Direction;
+                _wordBreak = p.WordBreak;
+                _direction = p._direction;
 
                 if (everything)
                 {
-                    BackgroundColor = p.BackgroundColor;
-                    BackgroundGradient = p.BackgroundGradient;
-                    BackgroundGradientAngle = p.BackgroundGradientAngle;
-                    BackgroundImage = p.BackgroundImage;
-                    BackgroundPosition = p.BackgroundPosition;
-                    BackgroundRepeat = p.BackgroundRepeat;
+                    _backgroundColor = p._backgroundColor;
+                    _backgroundGradient = p._backgroundGradient;
+                    _backgroundGradientAngle = p._backgroundGradientAngle;
+                    _backgroundImage = p._backgroundImage;
+                    _backgroundPosition = p._backgroundPosition;
+                    _backgroundRepeat = p._backgroundRepeat;
                     _borderTopWidth = p._borderTopWidth;
                     _borderRightWidth = p._borderRightWidth;
                     _borderBottomWidth = p._borderBottomWidth;
@@ -1264,36 +1529,36 @@ namespace Westermo.HtmlRenderer.Core.Dom
                     _borderRightColor = p._borderRightColor;
                     _borderBottomColor = p._borderBottomColor;
                     _borderLeftColor = p._borderLeftColor;
-                    BorderTopStyle = p.BorderTopStyle;
-                    BorderRightStyle = p.BorderRightStyle;
-                    BorderBottomStyle = p.BorderBottomStyle;
-                    BorderLeftStyle = p.BorderLeftStyle;
+                    _borderTopStyle = p._borderTopStyle;
+                    _borderRightStyle = p._borderRightStyle;
+                    _borderBottomStyle = p._borderBottomStyle;
+                    _borderLeftStyle = p._borderLeftStyle;
                     _bottom = p._bottom;
-                    CornerNwRadius = p.CornerNwRadius;
-                    CornerNeRadius = p.CornerNeRadius;
-                    CornerSeRadius = p.CornerSeRadius;
-                    CornerSwRadius = p.CornerSwRadius;
+                    _cornerNwRadius = p._cornerNwRadius;
+                    _cornerNeRadius = p._cornerNeRadius;
+                    _cornerSeRadius = p._cornerSeRadius;
+                    _cornerSwRadius = p._cornerSwRadius;
                     _cornerRadius = p._cornerRadius;
-                    Display = p.Display;
-                    Float = p.Float;
-                    Height = p.Height;
-                    MarginBottom = p.MarginBottom;
-                    MarginLeft = p.MarginLeft;
-                    MarginRight = p.MarginRight;
-                    MarginTop = p.MarginTop;
+                    _display = p._display;
+                    _float = p._float;
+                    _height = p._height;
+                    _marginBottom = p._marginBottom;
+                    _marginLeft = p._marginLeft;
+                    _marginRight = p._marginRight;
+                    _marginTop = p._marginTop;
                     _left = p._left;
                     _lineHeight = p._lineHeight;
-                    Overflow = p.Overflow;
+                    _overflow = p._overflow;
                     _paddingLeft = p._paddingLeft;
                     _paddingBottom = p._paddingBottom;
                     _paddingRight = p._paddingRight;
                     _paddingTop = p._paddingTop;
                     _right = p._right;
-                    TextDecoration = p.TextDecoration;
+                    _textDecoration = p._textDecoration;
                     _top = p._top;
-                    Position = p.Position;
-                    Width = p.Width;
-                    MaxWidth = p.MaxWidth;
+                    _position = p._position;
+                    _width = p._width;
+                    _maxWidth = p._maxWidth;
                     _wordSpacing = p._wordSpacing;
                 }
             }

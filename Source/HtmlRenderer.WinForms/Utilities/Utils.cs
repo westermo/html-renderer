@@ -13,9 +13,9 @@
 using System;
 using System.Drawing;
 using System.Windows.Forms;
-using Westermo.HtmlRenderer.Adapters.Entities;
+using TheArtOfDev.HtmlRenderer.Adapters.Entities;
 
-namespace Westermo.HtmlRenderer.WinForms.Utilities
+namespace TheArtOfDev.HtmlRenderer.WinForms.Utilities
 {
     /// <summary>
     /// Utilities for converting WinForms entities to HtmlRenderer core entities.

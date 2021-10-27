@@ -13,7 +13,7 @@
 using System;
 using System.IO;
 
-namespace Westermo.HtmlRenderer.Core.Utils
+namespace TheArtOfDev.HtmlRenderer.Core.Utils
 {
     /// <summary>
     /// Static class that contains argument-checking methods

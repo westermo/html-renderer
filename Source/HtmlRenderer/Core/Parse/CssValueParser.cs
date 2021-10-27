@@ -12,12 +12,12 @@
 
 using System;
 using System.Globalization;
-using Westermo.HtmlRenderer.Adapters;
-using Westermo.HtmlRenderer.Adapters.Entities;
-using Westermo.HtmlRenderer.Core.Dom;
-using Westermo.HtmlRenderer.Core.Utils;
+using TheArtOfDev.HtmlRenderer.Adapters;
+using TheArtOfDev.HtmlRenderer.Adapters.Entities;
+using TheArtOfDev.HtmlRenderer.Core.Dom;
+using TheArtOfDev.HtmlRenderer.Core.Utils;
 
-namespace Westermo.HtmlRenderer.Core.Parse
+namespace TheArtOfDev.HtmlRenderer.Core.Parse
 {
     /// <summary>
     /// Parse CSS properties values like numbers, Urls, etc.
@@ -107,8 +107,8 @@ namespace Westermo.HtmlRenderer.Core.Parse
                 {
                     number = value.Substring(0, value.Length - 2);
                 }
-
-                return double.TryParse(number, out _);
+                double stub;
+                return double.TryParse(number, out stub);
             }
             return false;
         }
@@ -154,7 +154,7 @@ namespace Westermo.HtmlRenderer.Core.Parse
         /// <param name="fontAdjust">if the length is in pixels and the length is font related it needs to use 72/96 factor</param>
         /// <param name="box"></param>
         /// <returns>the parsed length value with adjustments</returns>
-        public static double ParseLength(string? length, double hundredPercent, CssBoxProperties box, bool fontAdjust = false)
+        public static double ParseLength(string length, double hundredPercent, CssBoxProperties box, bool fontAdjust = false)
         {
             return ParseLength(length, hundredPercent, box.GetEmHeight(), null, fontAdjust, false);
         }
@@ -167,7 +167,7 @@ namespace Westermo.HtmlRenderer.Core.Parse
         /// <param name="box"></param>
         /// <param name="defaultUnit"></param>
         /// <returns>the parsed length value with adjustments</returns>
-        public static double ParseLength(string? length, double hundredPercent, CssBoxProperties box, string? defaultUnit)
+        public static double ParseLength(string length, double hundredPercent, CssBoxProperties box, string defaultUnit)
         {
             return ParseLength(length, hundredPercent, box.GetEmHeight(), defaultUnit, false, false);
         }
@@ -182,14 +182,14 @@ namespace Westermo.HtmlRenderer.Core.Parse
         /// <param name="fontAdjust">if the length is in pixels and the length is font related it needs to use 72/96 factor</param>
         /// <param name="returnPoints">Allows the return double to be in points. If false, result will be pixels</param>
         /// <returns>the parsed length value with adjustments</returns>
-        public static double ParseLength(string? length, double hundredPercent, double emFactor, string? defaultUnit, bool fontAdjust, bool returnPoints)
+        public static double ParseLength(string length, double hundredPercent, double emFactor, string defaultUnit, bool fontAdjust, bool returnPoints)
         {
             //Return zero if no length specified, zero specified
             if (string.IsNullOrEmpty(length) || length == "0")
                 return 0f;
 
             //If percentage, use ParseNumber
-            if (length!.EndsWith("%"))
+            if (length.EndsWith("%"))
                 return ParseNumber(length, hundredPercent);
 
             //Get units of the length
@@ -246,7 +246,7 @@ namespace Westermo.HtmlRenderer.Core.Parse
         /// <summary>
         /// Get the unit to use for the length, use default if no unit found in length string.
         /// </summary>
-        private static string GetUnit(string length, string? defaultUnit, out bool hasUnit)
+        private static string GetUnit(string length, string defaultUnit, out bool hasUnit)
         {
             var unit = length.Length >= 3 ? length.Substring(length.Length - 2, 2) : string.Empty;
             switch (unit)
