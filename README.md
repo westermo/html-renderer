@@ -1,6 +1,17 @@
-HTML Renderer [![Build status](https://ci.appveyor.com/api/projects/status/cm8xpf8ebt3hyi3e)](https://ci.appveyor.com/project/ArthurHub/html-renderer)
+HTML Renderer
 =============
 
+## Westermo Fork
+Code was forked from https://github.com/ArthurHub/HTML-Renderer, and this fork is maintained for .NET 6. A product at Westermo was dependent on the original package. As the product evolved, and was ported
+to .NET 6 (the continuation of .NET Core), the package had to be recompiled to not lock onto the .NET Framework. The result is a library that targets .NET 6 Windows. As such it may now safely be used
+with applications targeting .NET 6 on Windows.
+
+Westermo does not actively develop this package, but does not oppose collaboration. Even though the package is fairly complete, PRs are welcome should they benefit any users of Html-renderer.
+
+The namespace has been prefixed with Westermo.
+
+
+# Original README.md
 ## Help Wanted
 * Looking for a contributor(s) to take this project forward as I'm unable to continue supporting it.
 * Contribute directly to the repository and update nuget packages.

@@ -12,6 +12,8 @@
     <InformationalVersion>1.6.0</InformationalVersion>
     <AssemblyName>Westermo.HtmlRenderer</AssemblyName>
     <RootNamespace>Westermo.HtmlRenderer</RootNamespace>
+    <PackageProjectUrl>https://github.com/westermo/html-renderer</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/westermo/html-renderer</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>
