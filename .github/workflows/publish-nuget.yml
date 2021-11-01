@@ -1,0 +1,15 @@
+name: Publish NuGet
+
+on:
+  push:
+    tags:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Build and publish NuGet
+      run: docker build -t westermo/html-renderer -f ./PublishNuget.dockerfile . && docker run --rm -e "NUGET_TOKEN=${{ secrets.GITHUB_TOKEN }}" -t westermo/html-renderer

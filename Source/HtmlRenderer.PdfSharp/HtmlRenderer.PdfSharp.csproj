@@ -12,6 +12,15 @@
     <InformationalVersion>1.6.0</InformationalVersion>
     <AssemblyName>Westermo.HtmlRenderer.PdfSharp</AssemblyName>
     <RootNamespace>Westermo.HtmlRenderer.PdfSharp</RootNamespace>
+    <Product>Westermo.HtmlRenderer.PdfSharp</Product>
+    <Description>HTML Renderer for PdfSharp</Description>
+    <Title>Westermo.Html.Renderer.PdfSharp</Title>
+    <PackageId>$(AssemblyName)</PackageId>
+    <Authors>Original authors of https://github.com/ArthurHub/HTML-Renderer, Westermo Network Technologies AB</Authors>
+    <PackageProjectUrl>https://github.com/westermo/html-renderer</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/westermo/html-renderer</RepositoryUrl>
+    <Version>$(AssemblyVersion)</Version>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
   </PropertyGroup>
   
   <ItemGroup>

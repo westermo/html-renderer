@@ -10,6 +10,7 @@ Westermo does not actively develop this package, but does not oppose collaborati
 
 The namespace has been prefixed with Westermo.
 
+The PdfSharp renderer is no longer compiled, as it has a dependency that has not been ported from .NET Framework to .NET. This package is not used by Westermo. Feel free to submit a PR!
 
 # Original README.md
 ## Help Wanted

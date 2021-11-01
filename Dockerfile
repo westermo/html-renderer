@@ -6,5 +6,4 @@ COPY Source /src/
 
 CMD dotnet build --configuration Release ./HtmlRenderer/HtmlRenderer.csproj && \
     dotnet build --configuration Release ./HtmlRenderer.WinForms/HtmlRenderer.WinForms.csproj && \
-    dotnet build --configuration Release ./HtmlRenderer.WPF/HtmlRenderer.WPF.csproj && \
-    dotnet build --configuration Release ./HtmlRenderer.PdfSharp/HtmlRenderer.PdfSharp.csproj 
+    dotnet build --configuration Release ./HtmlRenderer.WPF/HtmlRenderer.WPF.csproj
