@@ -7,7 +7,7 @@ WORKDIR C:\src
 
 COPY Source C:\src
 
-RUN md C:\output\ && `
+RUN mkdir C:\output\ && `
     dotnet build --configuration "%CONFIGURATION%" ./HtmlRenderer/HtmlRenderer.csproj && `
     dotnet build --configuration "%CONFIGURATION%" ./HtmlRenderer.WPF/HtmlRenderer.WPF.csproj && `
     dotnet build --configuration "%CONFIGURATION%" ./HtmlRenderer.WinForms/HtmlRenderer.WinForms.csproj && `
